@@ -34,8 +34,7 @@ app.use('/modalidade', modalidadeRoute);
 app.use('/servicoCliente', servicoClienteRoute);
 app.use('/contatoCliente', contatoClienteRoute);
 app.use('/licitacao', licitacaoRoute);
-
-app.use('/documenttolicitacao', documentolicitacaoRoute);
+app.use('/documentolicitacao', documentolicitacaoRoute);
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'index.html'));

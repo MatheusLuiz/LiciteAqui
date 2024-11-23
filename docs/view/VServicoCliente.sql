@@ -1,4 +1,4 @@
-CREATE VIEW view_servicos_cliente AS
+CREATE VIEW vw_servicos_cliente AS
 SELECT 
     c.id_cliente,
     c.cnpj,

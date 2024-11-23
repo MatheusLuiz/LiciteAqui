@@ -14,4 +14,4 @@ SELECT
 FROM 
     login_usuarios lu
 JOIN 
-    usuarios u ON lu.usuario = u.id_usuarios;
+    usuarios u ON lu.usuario = u.id_usuario;
