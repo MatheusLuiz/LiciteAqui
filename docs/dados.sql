@@ -74,7 +74,6 @@ INSERT INTO
         sexo,
         data_nascimento,
         cpf,
-        status_cadastro,
         email
     )
 VALUES
@@ -88,7 +87,6 @@ VALUES
         'Feminino',
         '2000-07-09',
         '11741956385',
-        2,
         'contato1@email.com'
     ),
     (
@@ -101,7 +99,6 @@ VALUES
         'Masculino',
         '1998-09-15',
         '82986999379',
-        2,
         'contato2@email.com'
     ),
     (
@@ -114,7 +111,6 @@ VALUES
         'Feminino',
         '1985-05-17',
         '00158484079',
-        2,
         'contato3@email.com'
     ),
     (
@@ -127,7 +123,6 @@ VALUES
         'Feminino',
         '1990-08-08',
         '14367385893',
-        1,
         'contato4@email.com'
     ),
     (
@@ -140,7 +135,6 @@ VALUES
         'Masculino',
         '1992-12-21',
         '58536850621',
-        3,
         'contato5@email.com'
     );
 
@@ -249,6 +243,7 @@ INSERT INTO
         portal,
         numero_identificacao,
         objeto,
+        status_licitacao,
         cidade,
         estado,
         data_licitacao
@@ -262,6 +257,7 @@ VALUES
         'portal1.gov.br',
         'ID-0001',
         'Objeto da licitação 1',
+        1,
         'Cidade 1',
         'RS',
         '2023-07-01'
@@ -274,6 +270,7 @@ VALUES
         'portal2.gov.br',
         'ID-0002',
         'Objeto da licitação 2',
+        1,
         'Cidade 2',
         'MG',
         '2024-01-11'
@@ -286,21 +283,11 @@ VALUES
         'portal3.gov.br',
         'ID-0003',
         'Objeto da licitação 3',
+        1,
         'Cidade 3',
         'MG',
         '2022-07-23'
     );
-
-INSERT INTO
-    historico_licitacao (
-        id_historico_licitacao,
-        num_licitacao,
-        status_licitacao,
-        data_licitacao
-    )
-VALUES
-    (1, 'LIC00001', 1, '2024-10-02'),
-    (2, 'LIC00002', 1, '2022-04-05');
 
 INSERT INTO
     tipos_documentos (id_documento, descricao)

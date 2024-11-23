@@ -5,4 +5,4 @@ SELECT
     id_tipo_telefone,
     descricao
 FROM
-    tipo_telefone;
+    tipos_telefone;
