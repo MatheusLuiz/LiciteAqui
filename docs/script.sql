@@ -110,16 +110,14 @@ create table documentos_licitacao (
     foreign key (num_licitacao) references licitacoes(num_licitacao)
 );
 
-create table logs (
-    id_log int primary key auto_increment,
-    tabela_afetada varchar(255),
-    operacao enum('inserir', 'editar', 'deletar') not null,
-    id_registro int not null,
-    usuario int,
-    data_hora timestamp default current_timestamp,
-    descricao text,
-    foreign key (usuario) references usuarios(id_usuario)
+CREATE TABLE logs (
+    id_log INT PRIMARY KEY AUTO_INCREMENT,
+    tabela_afetada VARCHAR(255),
+    operacao ENUM('inserir', 'editar', 'deletar') NOT NULL,
+    id_registro INT NOT NULL,
+    usuario INT, 
+    data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    descricao TEXT
 );
-
 
 

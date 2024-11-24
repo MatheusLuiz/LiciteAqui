@@ -75,7 +75,6 @@ END $$
 
 DELIMITER ;
 
-
 DELIMITER $$
 
 CREATE PROCEDURE sp_deletar_usuario (
@@ -94,7 +93,7 @@ BEGIN
     DELETE FROM usuarios
     WHERE id_usuario = p_id_usuario;
 
-    -- Inserir log
+    -- Inserir log de exclusão do usuário
     INSERT INTO logs (tabela_afetada, operacao, id_registro, usuario, descricao)
     VALUES (
         'usuarios', 
@@ -106,3 +105,4 @@ BEGIN
 END $$
 
 DELIMITER ;
+
