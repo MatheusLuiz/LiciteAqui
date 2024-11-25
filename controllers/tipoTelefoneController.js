@@ -1,7 +1,7 @@
 const TipoTelefoneModel = require('../models/tipoTelefoneModel');
 
 class TipoTelefoneController {
-    // Cadastrar novo tipo de telefone
+    // Rota para cadastrar um novo tipo de telefone
     static async cadastrar(req, res) {
         try {
             const { descricao, usuario } = req.body;
@@ -10,7 +10,7 @@ class TipoTelefoneController {
                 return res.status(400).json({ error: 'Dados obrigatórios não fornecidos.' });
             }
 
-            const result = await TipoTelefoneModel.cadastrarTipoTelefone({ descricao, usuario });
+            const result = await TipoTelefoneModel.cadastrarTipoTelefone(descricao, usuario);
             return res.status(201).json({ message: 'Tipo de telefone cadastrado com sucesso!', result });
         } catch (error) {
             console.error(error);
@@ -18,17 +18,16 @@ class TipoTelefoneController {
         }
     }
 
-    // Atualizar tipo de telefone existente
+    // Rota para atualizar um tipo de telefone
     static async atualizar(req, res) {
         try {
-            const { id_tipo_telefone } = req.params;
-            const { descricao, usuario } = req.body;
+            const { id_tipo_telefone, descricao, usuario } = req.body;
 
             if (!id_tipo_telefone || !descricao || !usuario) {
                 return res.status(400).json({ error: 'Dados obrigatórios não fornecidos.' });
             }
 
-            const result = await TipoTelefoneModel.atualizarTipoTelefone(id_tipo_telefone, { descricao, usuario });
+            const result = await TipoTelefoneModel.atualizarTipoTelefone(id_tipo_telefone, descricao, usuario);
             return res.status(200).json({ message: 'Tipo de telefone atualizado com sucesso!', result });
         } catch (error) {
             console.error(error);
@@ -36,22 +35,26 @@ class TipoTelefoneController {
         }
     }
 
-    // Listar todos os tipos de telefone
+    // Rota para listar tipos de telefone
     static async listar(req, res) {
         try {
-            const tipos = await TipoTelefoneModel.listarTiposTelefone();
-            return res.status(200).json(tipos);
+            const tiposTelefone = await TipoTelefoneModel.listarTiposTelefone();
+
+            if (!tiposTelefone || tiposTelefone.length === 0) {
+                return res.status(404).json({ message: 'Nenhum tipo de telefone encontrado.' });
+            }
+
+            return res.status(200).json(tiposTelefone);
         } catch (error) {
             console.error(error);
             return res.status(500).json({ error: 'Erro ao listar os tipos de telefone.' });
         }
     }
 
-    // Deletar tipo de telefone
+    // Rota para deletar um tipo de telefone
     static async deletar(req, res) {
         try {
-            const { id_tipo_telefone } = req.params;
-            const { usuario } = req.body;
+            const { id_tipo_telefone, usuario } = req.body;
 
             if (!id_tipo_telefone || !usuario) {
                 return res.status(400).json({ error: 'Dados obrigatórios não fornecidos.' });

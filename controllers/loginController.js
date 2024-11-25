@@ -1,11 +1,73 @@
-const LoginModel = require('../models/loginModel');
+const LoginUsuarioModel = require('../models/loginModel');
 
-class LoginController {
-    /**
-     * Busca um usuário pelo username.
-     * @param {Object} req - Objeto de requisição do Express.
-     * @param {Object} res - Objeto de resposta do Express.
-     */
+class LoginUsuarioController {
+    // Rota para cadastrar um novo login de usuário
+    static async cadastrar(req, res) {
+        try {
+            const { usuario, username, senha, usuario_log } = req.body;
+
+            if (!usuario || !username || !senha || !usuario_log) {
+                return res.status(400).json({ error: 'Dados obrigatórios não fornecidos.' });
+            }
+
+            const result = await LoginUsuarioModel.cadastrarLoginUsuario(usuario, username, senha, usuario_log);
+            return res.status(201).json({ message: 'Login de usuário cadastrado com sucesso!', result });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: 'Erro ao cadastrar o login de usuário.' });
+        }
+    }
+
+    // Rota para atualizar um login de usuário
+    static async atualizar(req, res) {
+        try {
+            const { id_login, username, senha, usuario_log } = req.body;
+
+            if (!id_login || !username || !senha || !usuario_log) {
+                return res.status(400).json({ error: 'Dados obrigatórios não fornecidos.' });
+            }
+
+            const result = await LoginUsuarioModel.atualizarLoginUsuario(id_login, username, senha, usuario_log);
+            return res.status(200).json({ message: 'Login de usuário atualizado com sucesso!', result });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: 'Erro ao atualizar o login de usuário.' });
+        }
+    }
+
+    // Rota para listar logins de usuários
+    static async listar(req, res) {
+        try {
+            const loginsUsuarios = await LoginUsuarioModel.listarLoginsUsuarios();
+
+            if (!loginsUsuarios || loginsUsuarios.length === 0) {
+                return res.status(404).json({ message: 'Nenhum login de usuário encontrado.' });
+            }
+
+            return res.status(200).json(loginsUsuarios);
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: 'Erro ao listar os logins de usuários.' });
+        }
+    }
+
+    // Rota para deletar um login de usuário
+    static async deletar(req, res) {
+        try {
+            const { id_login, usuario_log } = req.body;
+
+            if (!id_login || !usuario_log) {
+                return res.status(400).json({ error: 'Dados obrigatórios não fornecidos.' });
+            }
+
+            const result = await LoginUsuarioModel.deletarLoginUsuario(id_login, usuario_log);
+            return res.status(200).json({ message: 'Login de usuário deletado com sucesso!', result });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: 'Erro ao deletar o login de usuário.' });
+        }
+    }
+
     static async findUserByUsername(req, res) {
         const { username, senha } = req.body; // Agora ambos, username e senha, vêm do corpo da requisição
     
@@ -37,69 +99,6 @@ class LoginController {
             return res.status(500).json({ error: 'Erro ao buscar os dados do usuário.' });
         }
     }
-
-    /**
-     * Insere um novo login de usuário.
-     * @param {Object} req - Objeto de requisição do Express.
-     * @param {Object} res - Objeto de resposta do Express.
-     */
-    static async insertLogin(req, res) {
-        const { usuario, username, senha, usuarioLog } = req.body;
-
-        if (!usuario || !username || !senha || !usuarioLog) {
-            return res.status(400).json({ error: 'Todos os campos (usuario, username, senha, usuarioLog) são obrigatórios.' });
-        }
-
-        try {
-            await LoginModel.insertLogin({ usuario, username, senha, usuarioLog });
-            return res.status(201).json({ message: 'Login de usuário inserido com sucesso.' });
-        } catch (error) {
-            console.error('Erro ao inserir login de usuário:', error.message);
-            return res.status(500).json({ error: 'Erro ao inserir login de usuário.' });
-        }
-    }
-
-    /**
-     * Atualiza os dados de login de um usuário.
-     * @param {Object} req - Objeto de requisição do Express.
-     * @param {Object} res - Objeto de resposta do Express.
-     */
-    static async updateLogin(req, res) {
-        const { idLogin, username, senha, usuarioLog } = req.body;
-
-        if (!idLogin || !username || !senha || !usuarioLog) {
-            return res.status(400).json({ error: 'Todos os campos (idLogin, username, senha, usuarioLog) são obrigatórios.' });
-        }
-
-        try {
-            await LoginModel.updateLogin({ idLogin, username, senha, usuarioLog });
-            return res.status(200).json({ message: 'Login de usuário atualizado com sucesso.' });
-        } catch (error) {
-            console.error('Erro ao atualizar login de usuário:', error.message);
-            return res.status(500).json({ error: 'Erro ao atualizar login de usuário.' });
-        }
-    }
-
-    /**
-     * Deleta um login de usuário.
-     * @param {Object} req - Objeto de requisição do Express.
-     * @param {Object} res - Objeto de resposta do Express.
-     */
-    static async deleteLogin(req, res) {
-        const { idLogin, usuarioLog } = req.body;
-
-        if (!idLogin || !usuarioLog) {
-            return res.status(400).json({ error: 'Os campos "idLogin" e "usuarioLog" são obrigatórios.' });
-        }
-
-        try {
-            await LoginModel.deleteLogin(idLogin, usuarioLog);
-            return res.status(200).json({ message: 'Login de usuário deletado com sucesso.' });
-        } catch (error) {
-            console.error('Erro ao deletar login de usuário:', error.message);
-            return res.status(500).json({ error: 'Erro ao deletar login de usuário.' });
-        }
-    }
 }
 
-module.exports = LoginController;
+module.exports = LoginUsuarioController;
