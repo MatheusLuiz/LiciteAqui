@@ -1,11 +1,14 @@
+
+
 const express = require('express');
-const loginController = require('../controllers/loginController');
+const LoginUsuarioController = require('../controllers/loginController');
 
 const router = express.Router();
 
-router.post('/autentic', loginController.findUserByUsername);
-router.post('/cadastrar', loginController.insertLogin);
-router.put('/atualizar', loginController.updateLogin);
-router.delete('/deletar', loginController.deleteLogin);
+router.post('/autentic', LoginUsuarioController.findUserByUsername);
+router.post('/cadastrar', LoginUsuarioController.cadastrar);
+router.put('/atualizar', LoginUsuarioController.atualizar);
+router.get('/listar', LoginUsuarioController.listar);
+router.delete('/deletar', LoginUsuarioController.deletar);
 
 module.exports = router;

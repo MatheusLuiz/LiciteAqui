@@ -3,7 +3,6 @@ const DocumentoLicitacaoController = require('../controllers/documentoLicitacaoC
 
 const router = express.Router();
 
-
 router.post('/cadastrar', DocumentoLicitacaoController.cadastrar);
 router.put('/atualizar', DocumentoLicitacaoController.atualizar);
 router.get('/listar', DocumentoLicitacaoController.listar);

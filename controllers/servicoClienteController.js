@@ -1,7 +1,7 @@
 const ServicoClienteModel = require('../models/servicoClienteModel');
 
 class ServicoClienteController {
-    // Cadastrar novo serviço de cliente
+    // Rota para cadastrar um novo serviço de cliente
     static async cadastrar(req, res) {
         try {
             const { id_cliente, id_tipo_servico, usuario } = req.body;
@@ -10,12 +10,7 @@ class ServicoClienteController {
                 return res.status(400).json({ error: 'Dados obrigatórios não fornecidos.' });
             }
 
-            const result = await ServicoClienteModel.cadastrarServicoCliente({
-                id_cliente,
-                id_tipo_servico,
-                usuario,
-            });
-
+            const result = await ServicoClienteModel.cadastrarServicoCliente(id_cliente, id_tipo_servico, usuario);
             return res.status(201).json({ message: 'Serviço de cliente cadastrado com sucesso!', result });
         } catch (error) {
             console.error(error);
@@ -23,22 +18,16 @@ class ServicoClienteController {
         }
     }
 
-    // Atualizar serviço de cliente existente
+    // Rota para atualizar um serviço de cliente
     static async atualizar(req, res) {
         try {
-            const { id_servico } = req.params;
-            const { id_cliente, id_tipo_servico, usuario } = req.body;
+            const { id_servico, id_cliente, id_tipo_servico, usuario } = req.body;
 
             if (!id_servico || !id_cliente || !id_tipo_servico || !usuario) {
                 return res.status(400).json({ error: 'Dados obrigatórios não fornecidos.' });
             }
 
-            const result = await ServicoClienteModel.atualizarServicoCliente(id_servico, {
-                id_cliente,
-                id_tipo_servico,
-                usuario,
-            });
-
+            const result = await ServicoClienteModel.atualizarServicoCliente(id_servico, id_cliente, id_tipo_servico, usuario);
             return res.status(200).json({ message: 'Serviço de cliente atualizado com sucesso!', result });
         } catch (error) {
             console.error(error);
@@ -46,22 +35,26 @@ class ServicoClienteController {
         }
     }
 
-    // Listar todos os serviços de clientes
+    // Rota para listar serviços de cliente
     static async listar(req, res) {
         try {
-            const servicos = await ServicoClienteModel.listarServicosCliente();
-            return res.status(200).json(servicos);
+            const servicosCliente = await ServicoClienteModel.listarServicosCliente();
+
+            if (!servicosCliente || servicosCliente.length === 0) {
+                return res.status(404).json({ message: 'Nenhum serviço de cliente encontrado.' });
+            }
+
+            return res.status(200).json(servicosCliente);
         } catch (error) {
             console.error(error);
             return res.status(500).json({ error: 'Erro ao listar os serviços de cliente.' });
         }
     }
 
-    // Deletar serviço de cliente
+    // Rota para deletar um serviço de cliente
     static async deletar(req, res) {
         try {
-            const { id_servico } = req.params;
-            const { usuario } = req.body;
+            const { id_servico, usuario } = req.body;
 
             if (!id_servico || !usuario) {
                 return res.status(400).json({ error: 'Dados obrigatórios não fornecidos.' });

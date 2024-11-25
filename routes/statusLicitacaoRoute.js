@@ -3,7 +3,6 @@ const StatusLicitacaoController = require('../controllers/statusLicitacaoControl
 
 const router = express.Router();
 
-
 router.post('/cadastrar', StatusLicitacaoController.cadastrar);
 router.put('/atualizar', StatusLicitacaoController.atualizar);
 router.get('/listar', StatusLicitacaoController.listar);

@@ -1,24 +1,16 @@
-const ClienteModel = require('../models/ClienteModel');
+const ClienteModel = require('../models/clienteModel');
 
 class ClienteController {
-    // Cadastrar novo cliente
+    // Rota para cadastrar um novo cliente
     static async cadastrar(req, res) {
         try {
             const { cnpj, razao_social, nome_fantasia, status, data_cadastro, usuario } = req.body;
 
-            if (!cnpj || !razao_social || !status || !data_cadastro || !usuario) {
+            if (!cnpj || !razao_social || !nome_fantasia || !status || !data_cadastro || !usuario) {
                 return res.status(400).json({ error: 'Dados obrigatórios não fornecidos.' });
             }
 
-            const result = await ClienteModel.cadastrarCliente({
-                cnpj,
-                razao_social,
-                nome_fantasia,
-                status,
-                data_cadastro,
-                usuario,
-            });
-
+            const result = await ClienteModel.cadastrarCliente(cnpj, razao_social, nome_fantasia, status, data_cadastro, usuario);
             return res.status(201).json({ message: 'Cliente cadastrado com sucesso!', result });
         } catch (error) {
             console.error(error);
@@ -26,24 +18,16 @@ class ClienteController {
         }
     }
 
-    // Atualizar cliente existente
+    // Rota para atualizar um cliente
     static async atualizar(req, res) {
         try {
-            const { id_cliente } = req.params;
-            const { cnpj, razao_social, nome_fantasia, status, usuario } = req.body;
+            const { id_cliente, cnpj, razao_social, nome_fantasia, status, usuario } = req.body;
 
-            if (!id_cliente || !cnpj || !razao_social || !status || !usuario) {
+            if (!id_cliente || !cnpj || !razao_social || !nome_fantasia || !status || !usuario) {
                 return res.status(400).json({ error: 'Dados obrigatórios não fornecidos.' });
             }
 
-            const result = await ClienteModel.atualizarCliente(id_cliente, {
-                cnpj,
-                razao_social,
-                nome_fantasia,
-                status,
-                usuario,
-            });
-
+            const result = await ClienteModel.atualizarCliente(id_cliente, cnpj, razao_social, nome_fantasia, status, usuario);
             return res.status(200).json({ message: 'Cliente atualizado com sucesso!', result });
         } catch (error) {
             console.error(error);
@@ -51,31 +35,13 @@ class ClienteController {
         }
     }
 
-    // Listar todos os clientes (view geral)
-    static async listarTodos(req, res) {
+    // Rota para listar clientes
+    static async listar(req, res) {
         try {
-            const clientes = await ClienteModel.listarClientesAll();
-            return res.status(200).json(clientes);
-        } catch (error) {
-            console.error(error);
-            return res.status(500).json({ error: 'Erro ao listar os clientes.' });
-        }
-    }
+            const clientes = await ClienteModel.listarClientes();
 
-    // Listar clientes por status
-    static async listarPorStatus(req, res) {
-        try {
-            const { status } = req.params;
-
-            let clientes;
-            if (status === 'ativo') {
-                clientes = await ClienteModel.listarClientesAtivos();
-            } else if (status === 'inativo') {
-                clientes = await ClienteModel.listarClientesInativos();
-            } else if (status === 'suspenso') {
-                clientes = await ClienteModel.listarClientesSuspensos();
-            } else {
-                return res.status(400).json({ error: 'Status inválido fornecido.' });
+            if (!clientes || clientes.length === 0) {
+                return res.status(404).json({ message: 'Nenhum cliente encontrado.' });
             }
 
             return res.status(200).json(clientes);
@@ -85,11 +51,10 @@ class ClienteController {
         }
     }
 
-    // Deletar cliente
+    // Rota para deletar um cliente
     static async deletar(req, res) {
         try {
-            const { id_cliente } = req.params;
-            const { usuario } = req.body;
+            const { id_cliente, usuario } = req.body;
 
             if (!id_cliente || !usuario) {
                 return res.status(400).json({ error: 'Dados obrigatórios não fornecidos.' });
