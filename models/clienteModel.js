@@ -4,7 +4,14 @@ class ClienteModel {
     static async cadastrarCliente({ cnpj, razao_social, nome_fantasia, status, data_cadastro, usuario }) {
         const sql = `CALL sp_inserir_cliente(?, ?, ?, ?, ?, ?)`;
         const params = [cnpj, razao_social, nome_fantasia, status, data_cadastro, usuario];
-        return await this.executeQuery(sql, params);
+        // return await this.executeQuery(sql, params);
+        try {
+            const [result] = await db.query(sql, params);
+            return result;
+        } catch (error) {
+            console.error("Erro ao executar consulta SQL no modelo:", error.message);
+            throw new Error(`Erro ao executar a consulta: ${error.message}`);
+        }
     }
 
     static async atualizarCliente(id_cliente, { cnpj, razao_social, nome_fantasia, status, usuario }) {

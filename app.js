@@ -14,8 +14,15 @@ const modalidadeRoute = require('./routes/modalidadeRoute');
 const contatoClienteRoute = require('./routes/contatoClienteRoute');
 const licitacaoRoute= require('./routes/licitacaoRoute');
 const documentolicitacaoRoute = require('./routes/documentoLicitacaoRoute');
+const cors = require('cors');
 
 const app = express();
+
+app.use(cors());
+
+app.use(cors({
+  origin: 'http://localhost:8081' 
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
