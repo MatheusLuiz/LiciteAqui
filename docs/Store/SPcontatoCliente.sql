@@ -128,3 +128,28 @@ END $$
 DELIMITER ;
 
 
+
+DELIMITER //
+CREATE PROCEDURE sp_contato_cliente(IN p_cliente_id INT)
+BEGIN
+    SELECT 
+        id_contato,
+        cliente,
+        tipo_telefone,
+        ddd,
+        telefone,
+        nome_completo,
+        sexo,
+        data_nascimento,
+        cpf,
+        status_cadastro,
+        email
+    FROM 
+        contato_cliente
+    WHERE 
+        cliente = p_cliente_id;
+END //
+DELIMITER ;
+
+
+

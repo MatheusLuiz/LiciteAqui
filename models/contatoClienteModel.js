@@ -19,9 +19,18 @@ class ContatoClienteModel {
 
     static async listarContatosClientes() {
         const sql = `
-            SELECT * FROM vw_contato_clientes
+            arrumar isso aqui//
         `;
         const resultados = await this.executeQuery(sql);
+        return resultados.length ? resultados : [];
+    }
+
+    static async listarContatoClientePorId(cliente_id) {
+        const sql = `
+            CALL sp_contato_cliente(?)
+        `;
+        const params = [cliente_id];
+        const resultados = await this.executeQuery(sql, params);
         return resultados.length ? resultados : [];
     }
 
