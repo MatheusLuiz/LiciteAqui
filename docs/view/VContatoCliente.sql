@@ -1,21 +1,15 @@
-CREATE VIEW vw_contato_clientes AS
+CREATE VIEW vw_contato_cliente AS
 SELECT 
-    c.id_cliente,
-    c.cnpj,
-    c.razao_social,
-    c.nome_fantasia,
-    c.`status`,
-    c.data_cadastro,
-    cc.id_contato,
-    cc.nome_completo,
-    cc.ddd,
-    cc.telefone,
-    cc.tipo_telefone,
-    cc.sexo,
-    cc.cpf,
-    cc.email,
-    cc.status_cadastro
+    id_contato,
+    cliente,
+    tipo_telefone,
+    ddd,
+    telefone,
+    nome_completo,
+    sexo,
+    data_nascimento,
+    cpf,
+    status_cadastro,
+    email
 FROM 
-    clientes c
-JOIN
-    contato_cliente cc ON c.id_cliente = cc.cliente
+    contato_cliente;
