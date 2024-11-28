@@ -83,6 +83,14 @@ BEGIN
     FROM clientes
     WHERE id_cliente = p_id_cliente;
 
+    -- Deletar os contatos relacionados ao cliente
+    DELETE FROM contato_cliente
+    WHERE cliente = p_id_cliente;
+
+      -- Deletar os servicos relacionados ao cliente
+    DELETE FROM servicos_cliente
+    WHERE cliente = p_id_cliente;
+
     -- Deletar o cliente
     DELETE FROM clientes
     WHERE id_cliente = p_id_cliente;
