@@ -94,35 +94,45 @@ END $$
 
 DELIMITER ;
 
+
 DELIMITER $$
 
 CREATE PROCEDURE sp_deletar_licitacao (
-    IN p_id_licitacao INT,
+    IN p_num_licitacao VARCHAR(50),
     IN p_usuario INT
 )
 BEGIN
-    DECLARE v_num_licitacao VARCHAR(50);
+    DECLARE v_id_licitacao INT;
 
-    -- Capturar o número antigo para o log
-    SELECT num_licitacao INTO v_num_licitacao
+    -- Capturar o ID da licitação para validação e log
+    SELECT id_licitacao INTO v_id_licitacao
     FROM licitacoes
-    WHERE id_licitacao = p_id_licitacao;
+    WHERE num_licitacao = p_num_licitacao;
+
+    -- Validar se a licitação existe
+    IF v_id_licitacao IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Licitação não encontrada';
+    END IF;
+
+    -- Deletar documentos vinculados à licitação
+    DELETE FROM documentos_licitacao
+    WHERE num_licitacao = p_num_licitacao;
 
     -- Deletar a licitação
     DELETE FROM licitacoes
-    WHERE id_licitacao = p_id_licitacao;
+    WHERE num_licitacao = p_num_licitacao;
 
     -- Inserir log
     INSERT INTO logs (tabela_afetada, operacao, id_registro, usuario, descricao)
     VALUES (
         'licitacoes', 
         'deletar', 
-        p_id_licitacao, 
+        v_id_licitacao, 
         p_usuario, 
-        CONCAT('Deletada licitação de número: ', v_num_licitacao)
+        CONCAT('Deletada licitação com número: ', p_num_licitacao)
     );
 END $$
 
 DELIMITER ;
-
 
