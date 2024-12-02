@@ -63,6 +63,10 @@ DELIMITER ;
 
 
 
+DELIMITER ;
+
+
+-- Atualização da Store Procedure para validar e deletar documentos antes de deletar o tipo de documento
 DELIMITER $$
 
 CREATE PROCEDURE sp_deletar_tipo_documento (
@@ -71,11 +75,23 @@ CREATE PROCEDURE sp_deletar_tipo_documento (
 )
 BEGIN
     DECLARE v_descricao VARCHAR(50);
+    DECLARE v_num_documentos INT;
 
     -- Capturar o dado antigo para o log
     SELECT descricao INTO v_descricao
     FROM tipos_documentos
     WHERE id_documento = p_id_documento;
+
+    -- Verificar se há documentos vinculados ao tipo de documento
+    SELECT COUNT(*) INTO v_num_documentos
+    FROM documentos_licitacao
+    WHERE id_documento = p_id_documento;
+
+    -- Se houver documentos vinculados, deletar antes de deletar o tipo de documento
+    IF v_num_documentos > 0 THEN
+        DELETE FROM documentos_licitacao
+        WHERE id_documento = p_id_documento;
+    END IF;
 
     -- Deletar o tipo de documento
     DELETE FROM tipos_documentos
