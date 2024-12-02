@@ -78,7 +78,7 @@ BEGIN
 
     -- Deletar o tipo de serviço
     DELETE FROM tipo_servico
-    WHERE id_tipo_servico = p_id_tipo_servico;
+    WHERE id_tipo_servico = p_id_tipo_servico; 
 
     -- Inserir log
     INSERT INTO logs (tabela_afetada, operacao, id_registro, usuario, descricao)

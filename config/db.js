@@ -15,6 +15,7 @@ class Database {
       queueLimit: 0,
       timezone: "Z",
       charset: "utf8mb4",
+      multipleStatements: true
     });
 
     this.pool.on("connection", (connection) => {

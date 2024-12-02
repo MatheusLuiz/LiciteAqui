@@ -1,13 +1,12 @@
 const UserModel = require('../models/userModel');
 
 class UserController {
-    // Rota para cadastrar um novo usuário
     static async cadastrar(req, res) {
         try {
             const { nome_completo, email, sexo, data_nascimento, cpf, usuario } = req.body;
 
             if (!nome_completo || !email || !sexo || !cpf || !usuario) {
-                return res.status(400).json({ error: 'Dados obrigatórios não fornecidos.' });
+                return res.status(400).json({ success: false, message: 'Dados obrigatórios não fornecidos.' });
             }
 
             const result = await UserModel.cadastrarUser({
@@ -19,14 +18,17 @@ class UserController {
                 usuario
             });
 
-            return res.status(201).json({ message: 'Usuário cadastrado com sucesso!', result });
+            return res.status(201).json({ 
+                success: true, 
+                message: result.message, 
+                data: { id_usuario: result.id_usuario }
+            });
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ error: 'Erro ao cadastrar o usuário.' });
+            console.error('Erro ao cadastrar usuário:', error);
+            return res.status(500).json({ success: false, message: 'Erro ao cadastrar o usuário.', error: error.message });
         }
     }
 
-    // Rota para atualizar um usuário
     static async atualizar(req, res) {
         try {
             const { id_usuario, nome_completo, email, sexo, data_nascimento, cpf, usuario } = req.body;
@@ -35,63 +37,61 @@ class UserController {
                 return res.status(400).json({ error: 'Dados obrigatórios não fornecidos.' });
             }
 
-            // Normalizando o valor de sexo
-            const sexoNormalizado = sexo.toLowerCase() === 'masculino' ? 'Masculino' : 'feminino';
-
-            // Verificar se o CPF já está sendo utilizado por outro usuário que não seja o atual
-            const cpfExiste = await UserModel.verificarCpfExistente(cpf, id_usuario);
-            if (cpfExiste) {
-                return res.status(400).json({ error: 'O CPF fornecido já está sendo utilizado por outro usuário.' });
-            }
-
             const result = await UserModel.atualizarUser(id_usuario, {
                 nome_completo,
                 email,
-                sexo: sexoNormalizado,
+                sexo,
                 data_nascimento,
                 cpf,
                 usuario
             });
 
-            return res.status(200).json({ message: 'Usuário atualizado com sucesso!', result });
+            return res.status(200).json({ success: true, message: 'Usuário atualizado com sucesso.', data: result });
         } catch (error) {
-            console.error(error);
+            console.error('Erro ao atualizar usuário:', error);
             return res.status(500).json({ error: 'Erro ao atualizar o usuário.' });
         }
     }
 
-    // Rota para listar usuários
     static async listar(req, res) {
         try {
             const usuarios = await UserModel.listarUser();
 
-            console.log("Usuários retornados:", usuarios); // Log para debugar
+            console.log('Usuários retornados pela model:', usuarios);
 
-            if (!usuarios || usuarios.length === 0) {
-                return res.status(404).json({ message: 'Nenhum usuário encontrado.' });
+            if (!Array.isArray(usuarios) || usuarios.length === 0) {
+                return res.status(404).json({ success: false, message: 'Nenhum usuário encontrado.' });
             }
 
-            return res.status(200).json(usuarios);
+            return res.status(200).json({
+                success: true,
+                message: 'Usuários listados com sucesso.',
+                data: usuarios
+            });
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ error: 'Erro ao listar os usuários.' });
+            console.error('Erro ao listar usuários:', error);
+            return res.status(500).json({ success: false, message: 'Erro ao listar os usuários.', error: error.message });
         }
     }
 
-    // Rota para deletar um usuário
     static async deletar(req, res) {
         try {
-            const { id_usuario, usuario } = req.body; // ID do usuário e o usuário que está executando a ação devem ser passados no corpo da requisição
+            const { id_usuario, usuario } = req.body;
 
             if (!id_usuario || !usuario) {
-                return res.status(400).json({ error: 'Dados obrigatórios não fornecidos.' });
+                return res.status(400).json({ success: false, message: 'Dados obrigatórios não fornecidos.' });
             }
 
             const result = await UserModel.deletarUser(id_usuario, usuario);
-            return res.status(200).json({ message: 'Usuário deletado com sucesso!', result });
+
+            return res.status(200).json({ 
+                success: true, 
+                message: result.message,
+                data: { id_usuario: result.id_usuario }
+            });
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ error: 'Erro ao deletar o usuário.' });
+            console.error('Erro ao deletar usuário:', error);
+            return res.status(500).json({ success: false, message: 'Erro ao deletar o usuário.', error: error.message });
         }
     }
 }

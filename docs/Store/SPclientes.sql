@@ -9,24 +9,18 @@ CREATE PROCEDURE sp_inserir_cliente (
     IN p_usuario INT
 )
 BEGIN
-    DECLARE v_id_cliente INT;
+    -- Verificar se o CNPJ já existe
+    IF EXISTS (SELECT 1 FROM clientes WHERE cnpj = p_cnpj) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'CNPJ já cadastrado.';
+    END IF;
 
     -- Inserção do cliente
     INSERT INTO clientes (cnpj, razao_social, nome_fantasia, status, data_cadastro)
     VALUES (p_cnpj, p_razao_social, p_nome_fantasia, p_status, p_data_cadastro);
 
-    -- Obter o ID do cliente recém-inserido
-    SET v_id_cliente = LAST_INSERT_ID();
-
-    -- Inserir log
-    INSERT INTO logs (tabela_afetada, operacao, id_registro, usuario, descricao)
-    VALUES (
-        'clientes', 
-        'inserir', 
-        v_id_cliente, 
-        p_usuario, 
-        CONCAT('Inserido cliente: ', p_razao_social, ' (CNPJ: ', p_cnpj, ')')
-    );
+    -- Obter o ID do cliente recém-inserido e retornar
+    SELECT LAST_INSERT_ID() AS id_cliente;
 END $$
 
 DELIMITER ;
