@@ -61,8 +61,7 @@ class ContatoClienteController {
     // Rota para listar um contato de cliente específico
     static async listarPorId(req, res) {
         try {
-            const { cliente_id } = req.body;
-
+            const { cliente_id } = req.query; // Parâmetro na query string
             if (cliente_id === undefined || cliente_id === null) {
                 return res.status(400).json({ error: 'O parâmetro cliente_id é obrigatório.' });
             }

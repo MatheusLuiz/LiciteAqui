@@ -76,7 +76,7 @@ class LoginUsuarioController {
         }
     
         try {
-            const user = await LoginModel.findByUsername(username);
+            const user = await LoginUsuarioModel.findByUsername(username);
     
             if (!user) {
                 console.warn(`Usuário com username "${username}" não encontrado.`);
