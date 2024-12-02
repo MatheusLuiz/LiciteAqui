@@ -1,21 +1,20 @@
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
     event.preventDefault();
 
-    const loginUsu = document.getElementById('login_usu').value.trim();
-    const senhaUsu = document.getElementById('senha_usu').value.trim();
+    const login_usu = document.getElementById('login_usu').value.trim();
+    const senha_usu = document.getElementById('senha_usu').value.trim();
     const errorMessageDiv = document.getElementById('errorMessage');
     const loadingIndicator = document.getElementById('loadingIndicator');
 
-    errorMessageDiv.style.display = 'none';
-    errorMessageDiv.textContent = '';
-
-    if (!loginUsu || !senhaUsu) {
+    // Validação básica no frontend
+    if (!login_usu || !senha_usu) {
         errorMessageDiv.textContent = 'Usuário e senha são obrigatórios';
         errorMessageDiv.style.display = 'block';
         return;
     }
 
-    loadingIndicator.style.display = 'block';
+    loadingIndicator.style.display = 'block'; // Exibe o carregamento enquanto faz a requisição
+    errorMessageDiv.style.display = 'none'; // Oculta mensagens de erro ao iniciar nova tentativa
 
     try {
         const response = await fetch('/login/autentic', {
@@ -23,23 +22,33 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ username: loginUsu, senha: senhaUsu })
+            body: JSON.stringify({ username: login_usu, senha: senha_usu })
         });
 
-        loadingIndicator.style.display = 'none';
+        loadingIndicator.style.display = 'none'; // Oculta o carregamento
 
         if (response.ok) {
             const data = await response.json();
-            console.log("Resposta da API no login:", data); // Log para verificar a resposta
-            window.location.href = '/home'; // Redireciona para a página protegida
-        } else {
-            const errorData = await response.json();
-            errorMessageDiv.textContent = errorData.error || 'Credenciais inválidas. Tente novamente.';
-            errorMessageDiv.style.display = 'block';
+            console.log('Resposta do servidor:', data);
+        
+            if (data.token) {
+                document.cookie = `token=${data.token}; path=/; samesite=strict`;
+                window.location.href = '/home';
+            } else {
+                console.error("Token não retornado pelo servidor.");
+                errorMessageDiv.textContent = 'Erro ao efetuar o login. Token não recebido.';
+                errorMessageDiv.style.display = 'block';
+            }
         }
+        
     } catch (error) {
         loadingIndicator.style.display = 'none';
         errorMessageDiv.textContent = 'Erro ao se conectar com o servidor. Tente novamente.';
         errorMessageDiv.style.display = 'block';
+
+        // Ocultar a mensagem de erro após 3 segundos
+        setTimeout(() => {
+            errorMessageDiv.style.display = 'none';
+        }, 3000);
     }
 });

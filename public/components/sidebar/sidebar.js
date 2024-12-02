@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.log("Botão sair clicado!");
 
                     // Limpa o cookie do token
-                    document.cookie = "yoken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+                    document.cookie = "authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
                     console.log("Cookie do token removido.");
 
                     // Redireciona para a página de desautenticação

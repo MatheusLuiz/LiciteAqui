@@ -1,26 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Recupera o token do sessionStorage
-    const token = sessionStorage.getItem('authToken');
-    console.log("Token carregado do sessionStorage:", token); // Verifique se o token está correto
-
+    const token = document.cookie.split('; ').find(row => row.startsWith('token='));
     if (!token) {
         console.warn('Token não encontrado. Redirecionando para login.');
-        window.location.href = '/'; // Redireciona para a página de login
+        window.location.href = '/';
         return;
     }
 
-    // Fazer a requisição protegida com o cabeçalho Authorization
-    fetch('/', {
+    const tokenValue = token.split('=')[1];
+    console.log('Token encontrado:', tokenValue); // Log para depuração
+
+    fetch('/home', {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${tokenValue}`
         }
     })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Erro ao buscar dados do cliente. Verifique a autenticação.');
             }
-            return response.json();
+            return response.text();
         })
         .then(data => {
             console.log('Dados do cliente recebidos:', data);
@@ -28,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(err => {
             console.error(err);
-            window.location.href = ''; // Redireciona para login em caso de erro
+            alert('Erro ao autenticar. Redirecionando para login.');
+            window.location.href = '/';
         });
 });
