@@ -69,10 +69,10 @@ class ClienteController {
 
             const { id_cliente, usuario } = req.body;
             const result = await ClienteModel.deletarCliente(id_cliente, usuario);
-
-            if (!result.success) {
-                return res.status(404).json({ success: false, message: 'Cliente não encontrado para deletar.' });
-            }
+            
+            // if (!result) {
+            //     return res.status(404).json({ success: false, message: 'Cliente não encontrado para deletar.' });
+            // }
 
             return res.status(200).json({ success: true, message: 'Cliente deletado com sucesso!', data: result });
         } catch (error) {

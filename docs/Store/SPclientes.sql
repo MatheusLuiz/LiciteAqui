@@ -79,7 +79,7 @@ BEGIN
 
     -- Deletar os contatos relacionados ao cliente
     DELETE FROM contato_cliente
-    WHERE id_cliente = p_id_cliente;
+    WHERE cliente = p_id_cliente;
 
       -- Deletar os servicos relacionados ao cliente
     DELETE FROM servicos_cliente

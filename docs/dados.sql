@@ -223,9 +223,12 @@ VALUES
 INSERT INTO
     status_licitacao (id_status, nome_status)
 VALUES
-    (1, 'Aberta'),
-    (2, 'Encerrada'),
-    (3, 'Cancelada');
+    (1, 'Em Andamento'),
+    (2, 'Derrota'),
+    (3, 'Cancelada'),
+    (4, 'Confirmada'),
+    (5, 'Cadastrada'),
+    (6, 'Suspensa');
 
 INSERT INTO
     modalidade (id_modalidade, nome_modalidade)
