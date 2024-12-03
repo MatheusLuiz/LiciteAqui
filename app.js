@@ -14,13 +14,18 @@ const modalidadeRoute = require('./routes/modalidadeRoute');
 const contatoClienteRoute = require('./routes/contatoClienteRoute');
 const licitacaoRoute= require('./routes/licitacaoRoute');
 const documentolicitacaoRoute = require('./routes/documentoLicitacaoRoute');
+const cors = require('cors');
 
 const app = express();
+
+app.use(cors());
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static('public'));
+
 
 app.use('/login', loginRoute);
 app.use('/user', userRoute);
