@@ -1,0 +1,117 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+  }
+  
+  /* Sidebar */
+  #sidebar-container {
+    width: 60px; /* Sidebar reduzida */
+    height: 100vh;
+    background-color: #333;
+    position: sticky;
+    top: 0;
+    left: 0;
+    transition: width 0.3s ease;
+    overflow: hidden;
+  }
+  
+  #sidebar-container:hover {
+    width: 250px; /* Largura expandida ao passar o mouse */
+  }
+  
+  .sidebar-nav {
+    padding-top: 20px;
+  }
+  
+  .nav-links {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .nav-item {
+    position: relative;
+  }
+  
+  .nav-item > a {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .nav-item > a:hover {
+    background-color: #444;
+  }
+  
+  .nav-item > a .link-name {
+    margin-left: 10px;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+  }
+  
+  #sidebar-container:hover .nav-item > a .link-name {
+    opacity: 1; /* Exibir o nome da opção ao passar o mouse */
+  }
+  
+  /* Submenu */
+  .sub-links {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: none; /* Submenu oculto por padrão */
+    background-color: #444;
+    border-left: 3px solid #ff5722; /* Adicionando uma borda para destaque */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombrinha suave */
+  }
+  
+  .sub-links.active {
+    display: block; /* Exibe o submenu quando a classe 'active' for adicionada */
+    width: 200px;  /* Largura definida para o submenu */
+  }
+  
+  .sub-links li {
+    padding: 12px 20px; /* Espaçamento mais confortável */
+    border-bottom: 1px solid #555; /* Separador entre as opções */
+  }
+  
+  .sub-links li:last-child {
+    border-bottom: none; /* Remove o separador da última opção */
+  }
+  
+  .sub-links li a {
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    display: block;
+    transition: background-color 0.3s ease, padding-left 0.3s ease;
+  }
+  
+  .sub-links li a:hover {
+    background-color: #555;
+    padding-left: 30px; /* Um pouco de destaque no hover */
+  }
+  
+  /* Ícones (FontAwesome) */
+  .nav-item > a i {
+    font-size: 20px;
+    margin-right: 10px;
+  }
+  
+  /* Adaptação do ícone para os itens com submenu */
+  .nav-item > a .link-name {
+    font-size: 14px;
+    font-weight: bold;
+    display: block;
+  }
+  
+  /* Aumentando a largura do submenu quando a sidebar estiver expandida */
+  #sidebar-container:hover .sub-links {
+    width: 200px; /* Mais largura para o submenu quando a sidebar estiver expandida */
+  }

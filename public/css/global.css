@@ -1,0 +1,104 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Variáveis de cores */
+:root {
+    --background-color-primary: #FFFFFF;
+    --background-color-secondary: #2c2c2c;
+    --background-color-tertiary: #d4bb00;
+    --surface-color: #F5F5F5;
+    --skeleton-color: #D9D9D9;
+    --shape-transparency: #ffffff8f;
+    --canvas-color: #e5eaed;
+    --text-color-primary: #313131;
+    --text-color-secondary: #FFFFFF;
+    --text-color-tertiary: #d4bb00;
+    --text-color-quaternary: #1bbae1;
+    --font-family: "Poppins", sans-serif;
+    --font-size: 1rem;
+    --line-height: 1.5;
+}
+
+/* Global */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden; 
+    font-size: var(--font-size);
+    line-height: var(--line-height);
+    color: var(--text-color-primary);
+    background-color: var(--background-color-primary);
+    font-family: var(--font-family);
+    display: flex;
+}
+
+/* Títulos principais */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+}
+
+/* Links */
+a {
+    text-decoration: none;
+    color: var(--text-color-primary);
+}
+
+a:hover {
+    color: var(--background-color-tertiary);
+}
+
+/* Estilos para containers gerais */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+button.btn {
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    font-size: var(--font-size);
+}
+
+button.btn:hover {
+    opacity: 0.8;
+}
+
+/* Estilo para os inputs de formulário */
+.form-control {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.form-control:focus {
+    border-color: var(--background-color-tertiary);
+    outline: none;
+}
+
+/* Estilo para os formulários */
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-size: var(--font-size);
+    color: var(--text-color-primary);
+}
+
+.normal-text {
+    font-weight: normal;
+}
+
+.text-center {
+    text-align: center;
+}
