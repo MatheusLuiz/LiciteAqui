@@ -1,14 +1,22 @@
-
 const jwt = require("jsonwebtoken");
-const LoginUsuarioModel = require("../models/loginModel");  // Atualizado para LoginUsuarioModel
+const LoginUsuarioModel = require("../models/loginModel"); // Atualizado para LoginUsuarioModel
 const { redirectToLogin } = require("./redirectLogin");
 
 const authenticateToken = async (req, res, next) => {
     try {
-        const token = req.cookies.authToken;
+        // Obter o token do cookie ou do cabeçalho "Authorization"
+        let token = req.cookies.authToken;
+
+        if (!token && req.headers.authorization) {
+            // Se não encontrar no cookie, tenta pegar no cabeçalho
+            const authHeader = req.headers.authorization;
+            if (authHeader && authHeader.startsWith('Bearer ')) {
+                token = authHeader.split(' ')[1];
+            }
+        }
 
         if (!token) {
-            console.warn("Token ausente no cookie.");
+            console.warn("Token ausente no cookie ou no cabeçalho.");
             return redirectToLogin(res, "Acesso não autorizado. Token não fornecido.");
         }
 
@@ -30,7 +38,7 @@ const authenticateToken = async (req, res, next) => {
             }
 
             // Buscar o usuário completo no banco de dados com base no username extraído do token
-            const user = await LoginUsuarioModel.findByUsername(username);  // Atualizado para usar LoginUsuarioModel
+            const user = await LoginUsuarioModel.findByUsername(username);
             if (!user) {
                 console.warn("Usuário não encontrado no banco de dados.");
                 return redirectToLogin(res, "Usuário não encontrado");

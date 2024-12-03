@@ -8,14 +8,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const sairButton = document.getElementById("sair-btn");
             if (sairButton) {
                 sairButton.addEventListener("click", function () {
-                    console.log("Botão sair clicado!");
-
-                    // Limpa o cookie do token
-                    document.cookie = "authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-                    console.log("Cookie do token removido.");
+                    console.log("Botão sair clicado!");                  
 
                     // Redireciona para a página de desautenticação
-                    window.location.href = "logout"; // Certifique-se que o caminho está correto
+                    window.location.href = "/logout"; // Certifique-se que o caminho está correto
                 });
             }
         })
