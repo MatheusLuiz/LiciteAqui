@@ -4,13 +4,13 @@ class LicitacaoController {
     // Rota para cadastrar uma nova licitação
     static async cadastrar(req, res) {
         try {
-            const { num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario } = req.body;
+            const { id_cliente, num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario } = req.body;
 
-            if (!num_licitacao || !modalidade || !orgao || !portal || !numero_identificacao || !status_licitacao || !objeto || !cidade || !estado || !data_licitacao || !usuario) {
+            if (!id_cliente || !num_licitacao || !modalidade || !orgao || !portal || !numero_identificacao || !status_licitacao || !objeto || !cidade || !estado || !data_licitacao || !usuario) {
                 return res.status(400).json({ error: 'Dados obrigatórios não fornecidos.' });
             }
 
-            const result = await LicitacaoModel.cadastrarLicitacao(num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario);
+            const result = await LicitacaoModel.cadastrarLicitacao(id_cliente,num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario);
             return res.status(201).json({ message: 'Licitação cadastrada com sucesso!', result });
         } catch (error) {
             console.error(error);
@@ -21,13 +21,13 @@ class LicitacaoController {
     // Rota para atualizar uma licitação
     static async atualizar(req, res) {
         try {
-            const { id_licitacao, num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario } = req.body;
+            const { id_cliente, id_licitacao, num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario } = req.body;
 
-            if (!id_licitacao || !num_licitacao || !modalidade || !orgao || !portal || !numero_identificacao || !status_licitacao || !objeto || !cidade || !estado || !data_licitacao || !usuario) {
+            if (!id_cliente || !id_licitacao || !num_licitacao || !modalidade || !orgao || !portal || !numero_identificacao || !status_licitacao || !objeto || !cidade || !estado || !data_licitacao || !usuario) {
                 return res.status(400).json({ error: 'Dados obrigatórios não fornecidos.' });
             }
 
-            const result = await LicitacaoModel.atualizarLicitacao(id_licitacao, num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario);
+            const result = await LicitacaoModel.atualizarLicitacao(id_cliente,id_licitacao, num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario);
             return res.status(200).json({ message: 'Licitação atualizada com sucesso!', result });
         } catch (error) {
             console.error(error);

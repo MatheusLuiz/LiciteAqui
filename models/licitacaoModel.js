@@ -1,19 +1,19 @@
 const db = require('../config/db');
 
 class LicitacaoModel {
-    static async cadastrarLicitacao(num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario) {
+    static async cadastrarLicitacao(id_cliente,num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario) {
         const sql = `
-            CALL sp_inserir_licitacao(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            CALL sp_inserir_licitacao(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
-        const params = [num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario];
+        const params = [id_cliente,num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario];
         return await this.executeQuery(sql, params);
     }
 
-    static async atualizarLicitacao(id_licitacao, num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario) {
+    static async atualizarLicitacao(id_cliente,id_licitacao, num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario) {
         const sql = `
-            CALL sp_atualizar_licitacao(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            CALL sp_atualizar_licitacao(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
-        const params = [id_licitacao, num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario];
+        const params = [id_cliente,id_licitacao, num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario];
         return await this.executeQuery(sql, params);
     }
 
