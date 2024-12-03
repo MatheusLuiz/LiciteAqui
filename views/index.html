@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/index.css"> 
+</head>
+
+<body>
+    <main class="container">
+        
+        <section class="image-container">
+            <img src="image/image.jpg" alt="Imagem ilustrativa para a página de login" class="login-image">
+        </section>
+
+        <section class="form-container">
+            <h1>Licite Aqui</h1>
+            <form id="loginForm" action="#" method="POST">
+                <div class="input-group">
+                    <label for="login_usu">Usuário</label>
+                    <input type="text" id="login_usu" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="senha_usu">Senha</label>
+                    <input type="password" id="senha_usu" name="senha" required>
+                </div>
+                <div class="error-message" id="errorMessage"></div>
+                <button type="submit" class="btn">Entrar</button>
+                <div id="loadingIndicator" class="loading-indicator">Carregando...</div>
+            </form>
+        </section>
+    </main>
+
+    <script src="js/index.js"></script>
+</body>
+
+</html>
