@@ -1,7 +1,6 @@
---Clientes por Status--
+-- Clientes por Status --
 
---Status Ativo --
-
+-- Clientes Ativos --
 CREATE VIEW vw_clientes_ativos AS
 SELECT
     c.id_cliente,
@@ -14,12 +13,10 @@ FROM
     clientes c
 JOIN 
 	status_cliente sc ON c.`status` = sc.id_status
-    
-WHERE sc.descricao = 'Ativo';
+WHERE 
+    sc.descricao = 'Ativo';
 
-
---Status Inativo--
-
+-- Clientes Inativos --
 CREATE VIEW vw_clientes_inativos AS
 SELECT
     c.id_cliente,
@@ -32,12 +29,10 @@ FROM
     clientes c
 JOIN 
 	status_cliente sc ON c.`status` = sc.id_status
-    
-WHERE sc.descricao = 'Inativo';
+WHERE 
+    sc.descricao = 'Inativo';
 
-
---Status Suspenso--
-
+-- Clientes Suspensos --
 CREATE VIEW vw_clientes_suspenso AS
 SELECT
     c.id_cliente,
@@ -50,12 +45,10 @@ FROM
     clientes c
 JOIN 
 	status_cliente sc ON c.`status` = sc.id_status
-    
-WHERE sc.descricao = 'Suspenso';
+WHERE 
+    sc.descricao = 'Suspenso';
 
-
---Buscar todos os clientes--
-
+-- Todos os Clientes --
 CREATE VIEW vw_clientes_all AS 
 SELECT 
     id_cliente,

@@ -97,12 +97,13 @@ DELIMITER ;
 
 DELIMITER $$
 
-CREATE PROCEDURE sp_deletar_licitacao (
+CREATE PROCEDURE sp_deletar_licitacao ( 
     IN p_num_licitacao VARCHAR(50),
     IN p_usuario INT
 )
 BEGIN
     DECLARE v_id_licitacao INT;
+    DECLARE v_num_documentos INT;
 
     -- Capturar o ID da licitação para validação e log
     SELECT id_licitacao INTO v_id_licitacao
@@ -115,9 +116,16 @@ BEGIN
         SET MESSAGE_TEXT = 'Licitação não encontrada';
     END IF;
 
-    -- Deletar documentos vinculados à licitação
-    DELETE FROM documentos_licitacao
+    -- Verificar se há documentos vinculados à licitação
+    SELECT COUNT(*) INTO v_num_documentos
+    FROM documentos_licitacao
     WHERE num_licitacao = p_num_licitacao;
+
+    -- Se houver documentos vinculados, deletar antes de deletar a licitação
+    IF v_num_documentos > 0 THEN
+        DELETE FROM documentos_licitacao
+        WHERE num_licitacao = p_num_licitacao;
+    END IF;
 
     -- Deletar a licitação
     DELETE FROM licitacoes
@@ -135,4 +143,5 @@ BEGIN
 END $$
 
 DELIMITER ;
+
 

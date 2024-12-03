@@ -54,13 +54,13 @@ class LicitacaoController {
     // Rota para deletar uma licitação
     static async deletar(req, res) {
         try {
-            const { id_licitacao, usuario } = req.body;
+            const { num_licitacao, usuario } = req.body;
 
-            if (!id_licitacao || !usuario) {
+            if (!num_licitacao || !usuario) {
                 return res.status(400).json({ error: 'Dados obrigatórios não fornecidos.' });
             }
 
-            const result = await LicitacaoModel.deletarLicitacao(id_licitacao, usuario);
+            const result = await LicitacaoModel.deletarLicitacao(num_licitacao, usuario);
             return res.status(200).json({ message: 'Licitação deletada com sucesso!', result });
         } catch (error) {
             console.error(error);
