@@ -1,0 +1,66 @@
+@import url('global.css');
+@import url('../components/sidebar/sidebar.css');
+
+.content-header {
+  margin-bottom: 10px;
+  background-color: var(--shape-transparency);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--secondary-border-color);
+  padding: 5px 40px;
+}
+
+.content-header h1,
+.content-header h2 {
+  margin: 0;
+  font-size: 26px;
+  line-height: 32px;
+}
+
+.content-header small {
+  font-size: 17px;
+  font-weight: 200;
+}
+
+.header-section h1 i {
+  font-size: 56px;
+  float: right;
+  margin: 2px 0 0 10px;
+  color: var(--text-color-secondary);
+  line-height: 64px;
+}
+
+.header-section {
+  padding: 30px 10px;
+}
+
+.breadcrumb {
+  padding: 5px 40px;
+  background-color: var(--main-bg-color);
+}
+
+.breadcrumb i {
+  font-size: 14px;
+}
+
+.breadcrumb-top {
+  margin-bottom: 10px;
+  padding: 7px 10px;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--secondary-border-color);
+  font-size: 12px;
+}
+
+.breadcrumb > li + li:before {
+  content: "\203a";
+  margin: 0 10px;
+}
+
+.breadcrumb > li a {
+  color: var(--text-color-quaternary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.breadcrumb > li {
+  font-size: 12px;
+}

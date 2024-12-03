@@ -1,5 +1,6 @@
 CREATE VIEW vw_licitacoes AS
 SELECT
+    id_cliente,
     id_licitacao,
     num_licitacao,
     modalidade,

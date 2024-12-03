@@ -1,0 +1,143 @@
+@import url(global.css);
+
+body {
+    margin: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--background-color-primary);
+}
+
+html {
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    max-width: 100%; /* Remover a limitação de largura para ocupar toda a tela */
+    background-color: var(--background-color-secondary); 
+    align-items: center;
+    margin: 0; /* Remover margens para evitar faixas em branco nas laterais */
+    padding: 0;
+}
+
+.image-container {
+    flex: 0 0 55%; /* Reduzir a largura da imagem para dar mais espaço ao formulário */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding-right: 2rem; /* Espaçamento entre a imagem e o formulário */
+    background: linear-gradient(to right, var(--background-color-primary), transparent); /* Transição da cor da imagem para o fundo */
+}
+
+.login-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center; 
+    border-radius: 0; /* Remover bordas arredondadas para ocupar todo o espaço */
+}
+
+.form-container {
+    width: 40%;
+    max-width: 400px; 
+    height: auto; 
+    max-height: 500px; 
+    background-color: var(--background-color-primary); 
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+    border-radius: 8px;
+    flex-shrink: 0;
+    margin: auto; /* Centraliza horizontalmente */
+    transition: all 0.3s ease; 
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1.25rem;
+    color: var(--text-color-primary);
+}
+
+.input-group {
+    width: 100%;
+    margin-bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-color-primary);
+}
+
+.input-group input {
+    padding: 0.625rem; /* 10px */
+    font-size: 1rem;
+    border: 1px solid var(--skeleton-color);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: var(--background-color-tertiary);
+    outline: none;
+}
+
+button {
+    padding: 0.625rem 1.25rem; /* 10px 20px */
+    background-color: var(--background-color-tertiary);
+    border: none;
+    color: var(--text-color-secondary);
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--background-color-secondary);
+}
+
+.error-message {
+    display: none;
+    color: red;
+    font-size: 0.875rem;
+    margin-bottom: 1.25rem;
+}
+
+.loading-indicator {
+    display: none;
+    color: var(--background-color-tertiary);
+    font-size: 1rem;
+    margin-top: 1rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+    }
+
+    .image-container {
+        flex: 0 0 auto;
+        width: 100%;
+        padding-right: 0;
+        margin-bottom: 1rem;
+    }
+
+    .form-container {
+        width: 100%;
+        margin: 0;
+    }
+}

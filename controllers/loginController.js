@@ -1,4 +1,5 @@
 const LoginUsuarioModel = require('../models/loginModel');
+const jwt = require('jsonwebtoken');
 
 class LoginUsuarioController {
     // Rota para cadastrar um novo login de usuário
@@ -69,34 +70,44 @@ class LoginUsuarioController {
     }
 
     static async findUserByUsername(req, res) {
-        const { username, senha } = req.body; // Agora ambos, username e senha, vêm do corpo da requisição
+        const { username, senha } = req.body;
     
         if (!username || !senha) {
-            return res.status(400).json({ error: 'Os parâmetros "username" e "senha" são obrigatórios.' });
+            return res.status(400).json({ error: 'Usuário e senha são obrigatórios.' });
         }
     
         try {
             const user = await LoginUsuarioModel.findByUsername(username);
     
             if (!user) {
-                console.warn(`Usuário com username "${username}" não encontrado.`);
-                return res.status(404).json({ error: `Usuário com username "${username}" não encontrado.` });
+                return res.status(404).json({ error: 'Usuário não encontrado.' });
             }
     
-            // Comparar a senha informada com o hash da senha armazenada
-            const bcrypt = require('bcrypt'); // Certifique-se de importar o bcrypt no topo do arquivo
+            const bcrypt = require('bcrypt');
             const senhaValida = await bcrypt.compare(senha, user.senha);
+    
             if (!senhaValida) {
-                console.warn('Senha inválida para o username:', username);
                 return res.status(401).json({ error: 'Senha inválida.' });
             }
     
-            // Retorna os dados do usuário (exceto a senha)
-            const { senha: _, ...userWithoutPassword } = user; // Remover a senha do objeto retornado
-            return res.status(200).json(userWithoutPassword);
-        } catch (error) {
-            console.error('Erro ao buscar usuário:', error.message);
-            return res.status(500).json({ error: 'Erro ao buscar os dados do usuário.' });
+            const token = jwt.sign(
+                { id: user.id_login, username: user.username },
+                process.env.JWT_SECRET,
+                { expiresIn: '1h' }
+            );
+    
+            console.log("Token gerado:", token); // Log para depuração
+    
+            // Configurar o cookie com o token
+            res.cookie('authToken', token, {
+                maxAge: 3600000 // 1 hora
+            });
+    
+            // Enviar o token junto com os dados do usuário
+            return res.status(200).json({ token: token, user: user });
+        } catch (err) {
+            console.error("Erro ao autenticar o usuário:", err.message);
+            return res.status(500).json({ error: 'Erro interno no servidor.' });
         }
     }
 }

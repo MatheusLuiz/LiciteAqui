@@ -1,50 +1,64 @@
 const jwt = require("jsonwebtoken");
-const UserModel = require("../models/loginModel");
+const LoginUsuarioModel = require("../models/loginModel"); // Atualizado para LoginUsuarioModel
 const { redirectToLogin } = require("./redirectLogin");
 
 const authenticateToken = async (req, res, next) => {
     try {
-        // Obter o token do cookie
-        const token = req.cookies?.token;
+        // Obter o token do cookie ou do cabeçalho "Authorization"
+        let token = req.cookies.authToken;
+
+        if (!token && req.headers.authorization) {
+            // Se não encontrar no cookie, tenta pegar no cabeçalho
+            const authHeader = req.headers.authorization;
+            if (authHeader && authHeader.startsWith('Bearer ')) {
+                token = authHeader.split(' ')[1];
+            }
+        }
 
         if (!token) {
-            console.warn("Token não encontrado.");
-            return redirectToLogin(res, "Acesso não autorizado. Token não encontrado.");
+            console.warn("Token ausente no cookie ou no cabeçalho.");
+            return redirectToLogin(res, "Acesso não autorizado. Token não fornecido.");
         }
 
-        let decoded;
+        console.log("Token recebido:", token);
+
+        if (!process.env.JWT_SECRET) {
+            console.error("JWT_SECRET não está definido. Verifique as variáveis de ambiente.");
+            return redirectToLogin(res, "Erro interno no servidor.");
+        }
+
         try {
-            // Verificar e decodificar o token
-            decoded = jwt.verify(token, process.env.JWT_SECRET);
-            console.info("Token decodificado com sucesso.");
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            console.log("Token decodificado:", decoded);
+
+            const username = decoded.username;
+            if (!username) {
+                console.warn("Username não foi extraído corretamente do token.");
+                return redirectToLogin(res, "Acesso não autorizado. Username inválido.");
+            }
+
+            // Buscar o usuário completo no banco de dados com base no username extraído do token
+            const user = await LoginUsuarioModel.findByUsername(username);
+            if (!user) {
+                console.warn("Usuário não encontrado no banco de dados.");
+                return redirectToLogin(res, "Usuário não encontrado");
+            }
+
+            console.log("Usuário encontrado no banco de dados:", user);
+
+            req.user = user;
+            next();
         } catch (err) {
             console.error("Erro ao verificar o token:", err.message);
-            return redirectToLogin(res, "Token inválido ou expirado.");
+            if (err.name === "TokenExpiredError") {
+                return redirectToLogin(res, "Sessão expirada. Por favor, faça login novamente.");
+            } else {
+                return redirectToLogin(res, "Token inválido ou malformado.");
+            }
         }
-
-        const { username } = decoded;
-
-        if (!username) {
-            console.warn("Username ausente no payload do token.");
-            return redirectToLogin(res, "Acesso não autorizado. Dados inválidos no token.");
-        }
-
-        // Buscar o usuário completo no banco de dados com base no username extraído do token
-        const user = await UserModel.findByUsername(username);
-
-        if (!user) {
-            console.warn(`Usuário com username "${username}" não encontrado no banco.`);
-            return redirectToLogin(res, "Usuário não encontrado.");
-        }
-
-        // Armazenar o usuário na requisição para utilização nas rotas subsequentes
-        req.user = user;
-
-        // Passar o controle para o próximo middleware ou rota
-        next();
     } catch (err) {
         console.error("Erro no middleware de autenticação:", err.message);
-        return redirectToLogin(res, "Erro interno ao autenticar. Tente novamente mais tarde.");
+        return redirectToLogin(res, "Erro interno ao autenticar.");
     }
 };
 
