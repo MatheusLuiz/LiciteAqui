@@ -30,17 +30,19 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         if (response.ok) {
             const data = await response.json();
             console.log('Resposta do servidor:', data);
-        
+
             if (data.token) {
-                document.cookie = `token=${data.token}; path=/; samesite=strict`;
+                document.cookie = `authToken=${data.token}; path=/; samesite=strict`;
                 window.location.href = '/home';
             } else {
                 console.error("Token não retornado pelo servidor.");
                 errorMessageDiv.textContent = 'Erro ao efetuar o login. Token não recebido.';
                 errorMessageDiv.style.display = 'block';
             }
+        } else {
+            errorMessageDiv.textContent = 'Erro ao efetuar o login. Verifique suas credenciais.';
+            errorMessageDiv.style.display = 'block';
         }
-        
     } catch (error) {
         loadingIndicator.style.display = 'none';
         errorMessageDiv.textContent = 'Erro ao se conectar com o servidor. Tente novamente.';

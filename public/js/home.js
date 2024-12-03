@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const token = document.cookie.split('; ').find(row => row.startsWith('token='));
+    const token = document.cookie.split('; ').find(row => row.startsWith('authToken='));
+
     if (!token) {
         console.warn('Token não encontrado. Redirecionando para login.');
         window.location.href = '/';

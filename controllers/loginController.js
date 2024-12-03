@@ -90,7 +90,6 @@ class LoginUsuarioController {
                 return res.status(401).json({ error: 'Senha inválida.' });
             }
     
-            const jwt = require('jsonwebtoken');
             const token = jwt.sign(
                 { id: user.id_login, username: user.username },
                 process.env.JWT_SECRET,
@@ -101,12 +100,11 @@ class LoginUsuarioController {
     
             // Configurar o cookie com o token
             res.cookie('authToken', token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production', // Apenas HTTPS em produção
                 maxAge: 3600000 // 1 hora
             });
     
-            return res.status(200).json({ user });
+            // Enviar o token junto com os dados do usuário
+            return res.status(200).json({ token: token, user: user });
         } catch (err) {
             console.error("Erro ao autenticar o usuário:", err.message);
             return res.status(500).json({ error: 'Erro interno no servidor.' });

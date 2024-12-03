@@ -1,10 +1,11 @@
+
 const jwt = require("jsonwebtoken");
 const LoginUsuarioModel = require("../models/loginModel");  // Atualizado para LoginUsuarioModel
 const { redirectToLogin } = require("./redirectLogin");
 
 const authenticateToken = async (req, res, next) => {
     try {
-        const token = req.cookies.token;
+        const token = req.cookies.authToken;
 
         if (!token) {
             console.warn("Token ausente no cookie.");
