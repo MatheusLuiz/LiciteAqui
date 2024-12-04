@@ -1,7 +1,6 @@
 const LicitacaoModel = require("../models/licitacaoModel");
 
 class LicitacaoController {
-  // Rota para cadastrar uma nova licitação
   static async cadastrar(req, res) {
     try {
       const {
@@ -19,7 +18,6 @@ class LicitacaoController {
         usuario,
       } = req.body;
 
-      // Validação dos dados obrigatórios
       if (
         !id_cliente ||
         !num_licitacao ||
@@ -39,21 +37,18 @@ class LicitacaoController {
           .json({ error: "Dados obrigatórios não fornecidos." });
       }
 
-      // Validação do tipo de dado do modalidade
       if (typeof modalidade !== "number") {
         return res
           .status(400)
           .json({ error: "A modalidade deve ser um valor numérico." });
       }
 
-      // Validação do tipo de dado do status_licitacao
       if (typeof status_licitacao !== "number") {
         return res
           .status(400)
           .json({ error: "O status da licitação deve ser um valor numérico." });
       }
 
-      // Validação do tamanho do estado
       const estadoFormatado = estado.trim();
       if (typeof estadoFormatado !== "string" || estadoFormatado.length !== 2) {
         return res
@@ -86,7 +81,6 @@ class LicitacaoController {
 
   static async atualizar(req, res) {
     try {
-      // Função para validar campos obrigatórios
       function validarCamposObrigatorios(campos, body) {
         const camposFaltantes = campos.filter((campo) => !body[campo]);
         if (camposFaltantes.length > 0) {
@@ -138,21 +132,18 @@ class LicitacaoController {
         usuario,
       } = req.body;
 
-      // Validação do tipo de dado do modalidade
       if (typeof modalidade !== "number") {
         return res
           .status(400)
           .json({ error: "A modalidade deve ser um valor numérico." });
       }
 
-      // Validação do tipo de dado do status_licitacao
       if (typeof status_licitacao !== "number") {
         return res
           .status(400)
           .json({ error: "O status da licitação deve ser um valor numérico." });
       }
 
-      // Validação do tamanho do estado
       const estadoFormatado = estado.trim();
       if (typeof estadoFormatado !== "string" || estadoFormatado.length !== 2) {
         return res
@@ -176,7 +167,6 @@ class LicitacaoController {
         usuario
       );
 
-      // Retornar mensagem de sucesso
       return res.status(200).json({ success: true, message: result.message });
     } catch (error) {
       console.error("Erro ao atualizar licitação:", error);
@@ -188,7 +178,6 @@ class LicitacaoController {
     }
   }
 
-  // Rota para listar licitações
   static async listar(req, res) {
     try {
       const licitacoes = await LicitacaoModel.listarLicitacoes();
@@ -206,7 +195,6 @@ class LicitacaoController {
     }
   }
 
-  // Rota para deletar uma licitação
   static async deletar(req, res) {
     try {
       const { num_licitacao, usuario } = req.body;

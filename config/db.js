@@ -56,7 +56,7 @@ async query(sql, params) {
   } catch (error) {
       this.handleError(error, "Erro ao executar a consulta SQL");
   } finally {
-      if (connection) connection.release(); // Libera a conexão corretamente
+      if (connection) connection.release(); 
   }
 }
 
