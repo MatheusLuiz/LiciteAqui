@@ -76,33 +76,53 @@ CREATE PROCEDURE sp_deletar_cliente (
 )
 BEGIN
     DECLARE v_razao_social VARCHAR(255);
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+   
+        ROLLBACK;
+        SELECT 'Erro ao deletar cliente, transação revertida.' AS mensagem;
+    END;
 
-    
+    START TRANSACTION;
+
     SELECT razao_social INTO v_razao_social
     FROM clientes
     WHERE id_cliente = p_id_cliente;
 
-    
-    DELETE FROM contato_cliente
-    WHERE cliente = p_id_cliente;
 
-      
-    DELETE FROM servicos_cliente
-    WHERE cliente = p_id_cliente;
+    IF v_razao_social IS NOT NULL THEN
 
-    
-    DELETE FROM clientes
-    WHERE id_cliente = p_id_cliente;
+        DELETE FROM contato_cliente
+        WHERE cliente = p_id_cliente;
 
+  
+        DELETE FROM servicos_cliente
+        WHERE id_cliente = p_id_cliente;
+
+        DELETE FROM clientes
+        WHERE id_cliente = p_id_cliente;
+
+
+        INSERT INTO logs (tabela_afetada, operacao, id_registro, usuario, descricao)
+        VALUES (
+            'clientes', 
+            'deletar', 
+            p_id_cliente, 
+            p_usuario, 
+            CONCAT('Deletado cliente: ', v_razao_social)
+        );
+
+
+        COMMIT;
+
+ 
+        SELECT 'Cliente deletado com sucesso.' AS mensagem;
+    ELSE
     
-    INSERT INTO logs (tabela_afetada, operacao, id_registro, usuario, descricao)
-    VALUES (
-        'clientes', 
-        'deletar', 
-        p_id_cliente, 
-        p_usuario, 
-        CONCAT('Deletado cliente: ', v_razao_social)
-    );
+        ROLLBACK;
+        SELECT 'Cliente não encontrado.' AS mensagem;
+    END IF;
+
 END $$
 
-DELIMITER;
+DELIMITER ;

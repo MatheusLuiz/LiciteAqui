@@ -160,7 +160,7 @@ class ContatoClienteController {
 
   static async listarPorId(req, res) {
     try {
-      const { cliente_id } = req.body;
+      const { cliente_id } = req.params;
 
       if (cliente_id === undefined || cliente_id === null) {
         return res

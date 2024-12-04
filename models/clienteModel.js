@@ -90,16 +90,25 @@ class ClienteModel {
     const params = [id_cliente, usuario];
 
     try {
-      const [results] = await db.query(sql, params);
+      const results = await db.query(sql, params);
 
-      if (results && results[0] && results[0].mensagem) {
-        return {
-          success: true,
-          message: results[0].mensagem,
-        };
-      } else {
-        throw new Error("Erro ao deletar cliente. Nenhum dado retornado.");
+      // Verificar se o retorno é um array e se contém dados
+      if (
+        results &&
+        Array.isArray(results) &&
+        results.length > 0 &&
+        results[0].length > 0
+      ) {
+        const resultData = results[0];
+        if (resultData[0] && resultData[0].mensagem) {
+          return {
+            success: true,
+            message: resultData[0].mensagem,
+          };
+        }
       }
+
+      throw new Error("Erro ao deletar cliente. Nenhum dado retornado.");
     } catch (error) {
       console.error(`Erro ao executar consulta SQL: ${sql}`, error.message);
       throw new Error(
