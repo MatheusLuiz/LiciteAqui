@@ -20,10 +20,8 @@ class ClienteModel {
     ];
 
     try {
-      // Executa a procedure e obtém os resultados
       const [results] = await db.query(sql, params);
 
-      // A procedure retornará o ID diretamente como resultado.
       if (results && results[0] && results[0].id_cliente) {
         const id_cliente = results[0].id_cliente;
         return {
@@ -33,7 +31,6 @@ class ClienteModel {
         };
       }
 
-      // Caso não tenha retornado o valor esperado
       throw new Error("Erro ao obter o ID do cliente recém-cadastrado.");
     } catch (error) {
       console.error(`Erro ao executar consulta SQL: ${sql}`, error.message);
@@ -62,10 +59,8 @@ class ClienteModel {
     ];
 
     try {
-      // Executa a procedure e obtém os resultados
       const results = await db.query(sql, params);
 
-      // Verifica se a resposta é válida e contém os dados esperados
       if (results && Array.isArray(results) && results.length > 0) {
         return {
           success: true,
@@ -73,7 +68,6 @@ class ClienteModel {
         };
       }
 
-      // Caso não tenha retornado o valor esperado
       throw new Error("Erro ao obter o resultado da atualização do cliente.");
     } catch (error) {
       console.error(`Erro ao executar consulta SQL: ${sql}`, error.message);
@@ -98,7 +92,6 @@ class ClienteModel {
     try {
       const [results] = await db.query(sql, params);
 
-      // Validar o retorno da procedure
       if (results && results[0] && results[0].mensagem) {
         return {
           success: true,
@@ -120,19 +113,16 @@ class ClienteModel {
     return await this.executeQuery(sql);
   }
 
-  // Listar clientes inativos
   static async listarClientesInativos() {
     const sql = `SELECT * FROM vw_clientes_inativos`;
     return await this.executeQuery(sql);
   }
 
-  // Listar clientes suspensos
   static async listarClientesSuspensos() {
     const sql = `SELECT * FROM vw_clientes_suspenso`;
     return await this.executeQuery(sql);
   }
 
-  // Listar todos os clientes
   static async listarTodosClientes() {
     const sql = `SELECT * FROM vw_clientes_all`;
     return await this.executeQuery(sql);
