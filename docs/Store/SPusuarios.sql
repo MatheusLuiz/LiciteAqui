@@ -69,6 +69,7 @@ BEGIN
         p_usuario, 
         CONCAT('Atualizado usuário: ', v_nome_completo_antigo, ' para ', p_nome_completo)
     );
+    SELECT 'Usuário atualizado com sucesso' AS mensagem;
 END $$
 
 DELIMITER ;
@@ -97,7 +98,7 @@ BEGIN
     -- Verificar se há um login associado ao usuário
     IF EXISTS (SELECT 1 FROM login_usuarios WHERE id_usuario = p_id_usuario) THEN
         -- Deletar o login associado ao usuário
-        DELETE FROM login_usuarios WHERE usuario = p_id_usuario;
+        DELETE FROM login_usuarios WHERE id_usuario = p_id_usuario;
     END IF;
 
     -- Deletar o usuário
@@ -119,4 +120,5 @@ BEGIN
 END $$
 
 DELIMITER ;
+
 

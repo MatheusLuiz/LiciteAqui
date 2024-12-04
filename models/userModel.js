@@ -26,8 +26,25 @@ class UserModel {
     static async atualizarUser(id_usuario, { nome_completo, email, sexo, data_nascimento, cpf, usuario }) {
         const sql = `CALL sp_atualizar_usuario(?, ?, ?, ?, ?, ?, ?)`;
         const params = [id_usuario, nome_completo, email, sexo, data_nascimento, cpf, usuario];
-        return await this.executeQuery(sql, params);
+    
+        try {
+            const [results] = await db.query(sql, params);
+    
+            // Verificar se a SP retornou uma mensagem de sucesso
+            if (results && results[0] && results[0].mensagem) {
+                return {
+                    success: true,
+                    message: results[0].mensagem,
+                };
+            } else {
+                throw new Error('Erro ao obter o resultado da atualização do usuário.');
+            }
+        } catch (error) {
+            console.error(`Erro ao executar consulta SQL: ${sql}`, error.message);
+            throw new Error(`Erro ao executar a consulta no banco de dados: ${error.message}`);
+        }
     }
+    
 
     static async listarUser() {
         const sql = `SELECT * FROM vw_usuarios`;
@@ -52,25 +69,26 @@ class UserModel {
     static async deletarUser(id_usuario, usuario) {
         const sql = `CALL sp_deletar_usuario(?, ?)`;
         const params = [id_usuario, usuario];
-
+    
         try {
             const [results] = await db.query(sql, params);
-
-            if (results && results[0] && results[0].id_usuario) {
+    
+            // Verificar se a SP retornou uma mensagem de sucesso
+            if (results && results[0] && results[0].mensagem) {
                 return {
                     success: true,
-                    id_usuario: results[0].id_usuario,
-                    message: results[0].mensagem
+                    message: results[0].mensagem,
                 };
+            } else {
+                throw new Error('Erro ao obter o resultado da deleção do usuário.');
             }
-
-            throw new Error("Erro ao obter confirmação de exclusão do usuário.");
         } catch (error) {
             console.error(`Erro ao executar consulta SQL: ${sql}`, error.message);
             throw new Error(`Erro ao executar a consulta no banco de dados: ${error.message}`);
         }
     }
-
+    
+    
     static async executeQuery(sql, params = []) {
         try {
             const [results] = await db.query(sql, params);
