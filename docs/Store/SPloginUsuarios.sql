@@ -9,14 +9,14 @@ CREATE PROCEDURE sp_inserir_login_usuario (
 BEGIN
     DECLARE v_id_login INT;
 
-    -- Inserção do login do usuário
+    
     INSERT INTO login_usuarios (usuario, username, senha)
     VALUES (p_usuario, p_username, p_senha);
 
-    -- Obter o ID do login recém-inserido
+    
     SET v_id_login = LAST_INSERT_ID();
 
-    -- Inserir log
+    
     INSERT INTO logs (tabela_afetada, operacao, id_registro, usuario, descricao)
     VALUES (
         'login_usuarios', 
@@ -27,8 +27,7 @@ BEGIN
     );
 END $$
 
-DELIMITER ;
-
+DELIMITER;
 
 DELIMITER $$
 
@@ -41,17 +40,17 @@ CREATE PROCEDURE sp_atualizar_login_usuario (
 BEGIN
     DECLARE v_username_antigo VARCHAR(50);
 
-    -- Capturar o dado antigo para o log
+    
     SELECT username INTO v_username_antigo
     FROM login_usuarios
     WHERE id_login = p_id_login;
 
-    -- Atualizar o login do usuário
+    
     UPDATE login_usuarios
     SET username = p_username, senha = p_senha
     WHERE id_login = p_id_login;
 
-    -- Inserir log
+    
     INSERT INTO logs (tabela_afetada, operacao, id_registro, usuario, descricao)
     VALUES (
         'login_usuarios', 
@@ -62,7 +61,7 @@ BEGIN
     );
 END $$
 
-DELIMITER ;
+DELIMITER;
 
 DELIMITER $$
 
@@ -73,16 +72,16 @@ CREATE PROCEDURE sp_deletar_login_usuario (
 BEGIN
     DECLARE v_username VARCHAR(50);
 
-    -- Capturar o dado antigo para o log
+    
     SELECT username INTO v_username
     FROM login_usuarios
     WHERE id_login = p_id_login;
 
-    -- Deletar o login do usuário
+    
     DELETE FROM login_usuarios
     WHERE id_login = p_id_login;
 
-    -- Inserir log
+    
     INSERT INTO logs (tabela_afetada, operacao, id_registro, usuario, descricao)
     VALUES (
         'login_usuarios', 
@@ -93,4 +92,4 @@ BEGIN
     );
 END $$
 
-DELIMITER ;
+DELIMITER;

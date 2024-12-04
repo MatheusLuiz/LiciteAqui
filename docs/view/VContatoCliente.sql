@@ -1,5 +1,5 @@
 CREATE VIEW vw_contato_cliente AS
-SELECT 
+SELECT
     id_contato,
     cliente,
     tipo_telefone,
@@ -11,5 +11,4 @@ SELECT
     cpf,
     status_cadastro,
     email
-FROM 
-    contato_cliente;
+FROM contato_cliente;

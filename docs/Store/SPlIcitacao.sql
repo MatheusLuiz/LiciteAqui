@@ -18,7 +18,7 @@ CREATE PROCEDURE sp_inserir_licitacao (
 BEGIN
     DECLARE v_id_licitacao INT;
 
-    -- Inserção da licitação
+    
     INSERT INTO licitacoes (
         id_cliente,num_licitacao, modalidade, orgao, portal, numero_identificacao, 
         status_licitacao, objeto, cidade, estado, data_licitacao
@@ -28,10 +28,10 @@ BEGIN
         p_status_licitacao, p_objeto, p_cidade, p_estado, p_data_licitacao
     );
 
-    -- Obter o ID da licitação recém-inserida
+    
     SET v_id_licitacao = LAST_INSERT_ID();
 
-    -- Inserir log
+    
     INSERT INTO logs (tabela_afetada, operacao, id_registro, usuario, descricao)
     VALUES (
         'licitacoes', 
@@ -42,8 +42,7 @@ BEGIN
     );
 END $$
 
-DELIMITER ;
-
+DELIMITER;
 
 DELIMITER $$
 
@@ -65,12 +64,12 @@ CREATE PROCEDURE sp_atualizar_licitacao (
 BEGIN
     DECLARE v_nome_antigo VARCHAR(255);
 
-    -- Capturar o número da licitação antigo para o log
+    
     SELECT num_licitacao INTO v_nome_antigo
     FROM licitacoes
     WHERE id_licitacao = p_id_licitacao;
 
-    -- Atualizar a licitação
+    
     UPDATE licitacoes
     SET 
         id_cliente = p_id_cliente,
@@ -96,13 +95,11 @@ BEGIN
         CONCAT('Atualizada licitação número: ', v_nome_antigo, ' para ', p_num_licitacao)
     );
 
-    -- Retornar mensagem de sucesso
+    
     SELECT 'Licitação atualizada com sucesso' AS mensagem;
 END $$
 
-DELIMITER ;
-
-
+DELIMITER;
 
 DELIMITER $$
 
@@ -114,33 +111,33 @@ BEGIN
     DECLARE v_id_licitacao INT;
     DECLARE v_num_documentos INT;
 
-    -- Capturar o ID da licitação para validação e log
+    
     SELECT id_licitacao INTO v_id_licitacao
     FROM licitacoes
     WHERE num_licitacao = p_num_licitacao;
 
-    -- Validar se a licitação existe
+    
     IF v_id_licitacao IS NULL THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Licitação não encontrada';
     END IF;
 
-    -- Verificar se há documentos vinculados à licitação
+    
     SELECT COUNT(*) INTO v_num_documentos
     FROM documentos_licitacao
     WHERE num_licitacao = p_num_licitacao;
 
-    -- Se houver documentos vinculados, deletar antes de deletar a licitação
+    
     IF v_num_documentos > 0 THEN
         DELETE FROM documentos_licitacao
         WHERE num_licitacao = p_num_licitacao;
     END IF;
 
-    -- Deletar a licitação
+    
     DELETE FROM licitacoes
     WHERE num_licitacao = p_num_licitacao;
 
-    -- Inserir log
+    
     INSERT INTO logs (tabela_afetada, operacao, id_registro, usuario, descricao)
     VALUES (
         'licitacoes', 
@@ -151,6 +148,4 @@ BEGIN
     );
 END $$
 
-DELIMITER ;
-
-
+DELIMITER;

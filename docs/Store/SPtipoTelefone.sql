@@ -16,8 +16,7 @@ BEGIN
     VALUES ('tipos_telefone', 'inserir', v_id_tipo_telefone, p_usuario, CONCAT('Inserido tipo de telefone: ', p_descricao));
 END $$
 
-DELIMITER ;
-
+DELIMITER;
 
 DELIMITER $$
 
@@ -41,8 +40,7 @@ BEGIN
     VALUES ('tipos_telefone', 'editar', p_id_tipo_telefone, p_usuario, CONCAT('Alterado tipo de telefone: ', v_descricao_antiga, ' para ', p_descricao));
 END $$
 
-DELIMITER ;
-
+DELIMITER;
 
 DELIMITER $$
 
@@ -64,6 +62,4 @@ BEGIN
     VALUES ('tipos_telefone', 'deletar', p_id_tipo_telefone, p_usuario, CONCAT('Deletado tipo de telefone: ', v_descricao));
 END $$
 
-DELIMITER ;
-
-
+DELIMITER;

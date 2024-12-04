@@ -16,7 +16,7 @@ CREATE PROCEDURE sp_inserir_contato_cliente (
 BEGIN
     DECLARE v_id_contato INT;
 
-    -- Inserção do contato
+    
     INSERT INTO contato_cliente (
         cliente, tipo_telefone, ddd, telefone, nome_completo, sexo, 
         data_nascimento, cpf, status_cadastro, email
@@ -26,10 +26,10 @@ BEGIN
         p_data_nascimento, p_cpf, p_status_cadastro, p_email
     );
 
-    -- Obter o ID do contato recém-inserido
+    
     SET v_id_contato = LAST_INSERT_ID();
 
-    -- Inserir log
+    
     INSERT INTO logs (tabela_afetada, operacao, id_registro, usuario, descricao)
     VALUES (
         'contato_cliente', 
@@ -40,9 +40,7 @@ BEGIN
     );
 END $$
 
-DELIMITER ;
-
-
+DELIMITER;
 
 DELIMITER $$
 
@@ -63,12 +61,12 @@ CREATE PROCEDURE sp_atualizar_contato_cliente (
 BEGIN
     DECLARE v_nome_completo_antigo VARCHAR(255);
 
-    -- Capturar o dado antigo para o log
+    
     SELECT nome_completo INTO v_nome_completo_antigo
     FROM contato_cliente
     WHERE id_contato = p_id_contato;
 
-    -- Atualizar o contato
+    
     UPDATE contato_cliente
     SET 
         cliente = p_cliente,
@@ -83,7 +81,7 @@ BEGIN
         email = p_email
     WHERE id_contato = p_id_contato;
 
-    -- Inserir log
+    
     INSERT INTO logs (tabela_afetada, operacao, id_registro, usuario, descricao)
     VALUES (
         'contato_cliente', 
@@ -93,8 +91,8 @@ BEGIN
         CONCAT('Atualizado contato: ', v_nome_completo_antigo, ' para ', p_nome_completo)
     );
 END $$
-DELIMITER ;
 
+DELIMITER;
 
 DELIMITER $$
 
@@ -105,16 +103,16 @@ CREATE PROCEDURE sp_deletar_contato_cliente (
 BEGIN
     DECLARE v_nome_completo VARCHAR(255);
 
-    -- Capturar o dado antigo para o log
+    
     SELECT nome_completo INTO v_nome_completo
     FROM contato_cliente
     WHERE id_contato = p_id_contato;
 
-    -- Deletar o contato
+    
     DELETE FROM contato_cliente
     WHERE id_contato = p_id_contato;
 
-    -- Inserir log
+    
     INSERT INTO logs (tabela_afetada, operacao, id_registro, usuario, descricao)
     VALUES (
         'contato_cliente', 
@@ -125,11 +123,10 @@ BEGIN
     );
 END $$
 
-DELIMITER ;
+DELIMITER;
 
+DELIMITER / /
 
-
-DELIMITER //
 CREATE PROCEDURE sp_contato_cliente(IN p_cliente_id INT)
 BEGIN
     SELECT 
@@ -149,7 +146,5 @@ BEGIN
     WHERE 
         cliente = p_cliente_id;
 END //
-DELIMITER ;
 
-
-
+DELIMITER;

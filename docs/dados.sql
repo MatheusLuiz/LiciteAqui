@@ -1,7 +1,6 @@
 INSERT INTO
     status_cliente (id_status, descricao)
-VALUES
-    (1, 'Ativo'),
+VALUES (1, 'Ativo'),
     (2, 'Inativo'),
     (3, 'Suspenso');
 
@@ -14,8 +13,7 @@ INSERT INTO
         status,
         data_cadastro
     )
-VALUES
-    (
+VALUES (
         1,
         '38055030122867',
         'Razão Social 1',
@@ -58,8 +56,7 @@ VALUES
 
 INSERT INTO
     tipos_telefone (id_tipo_telefone, descricao)
-VALUES
-    (1, 'Celular'),
+VALUES (1, 'Celular'),
     (2, 'Residencial'),
     (3, 'Comercial');
 
@@ -76,8 +73,7 @@ INSERT INTO
         cpf,
         email
     )
-VALUES
-    (
+VALUES (
         1,
         1,
         1,
@@ -140,15 +136,17 @@ VALUES
 
 INSERT INTO
     tipo_servico (id_tipo_servico, descricao)
-VALUES
-    (1, 'Consultoria'),
+VALUES (1, 'Consultoria'),
     (2, 'Manutenção'),
     (3, 'Desenvolvimento');
 
 INSERT INTO
-    servicos_cliente (id_servico, id_cliente, id_tipo_servico)
-VALUES
-    (1, 1, 1),
+    servicos_cliente (
+        id_servico,
+        id_cliente,
+        id_tipo_servico
+    )
+VALUES (1, 1, 1),
     (2, 2, 3),
     (3, 3, 3),
     (4, 4, 3),
@@ -164,8 +162,7 @@ INSERT INTO
         data_cadastro,
         cpf
     )
-VALUES
-    (
+VALUES (
         1,
         'Usuário 1',
         'usuario1@empresa.com',
@@ -212,25 +209,61 @@ VALUES
     );
 
 INSERT INTO
-    login_usuarios (id_login, usuario, username, senha, data_cadastro)
-VALUES
-    (1, 1, 'usuario1', 'senha1', CURRENT_TIMESTAMP),
-    (2, 2, 'usuario2', 'senha2', CURRENT_TIMESTAMP),
-    (3, 3, 'usuario3', 'senha3', CURRENT_TIMESTAMP),
-    (4, 4, 'usuario4', 'senha4', CURRENT_TIMESTAMP),
-    (5, 5, 'usuario5', 'senha5', CURRENT_TIMESTAMP);
+    login_usuarios (
+        id_login,
+        usuario,
+        username,
+        senha,
+        data_cadastro
+    )
+VALUES (
+        1,
+        1,
+        'usuario1',
+        'senha1',
+        CURRENT_TIMESTAMP
+    ),
+    (
+        2,
+        2,
+        'usuario2',
+        'senha2',
+        CURRENT_TIMESTAMP
+    ),
+    (
+        3,
+        3,
+        'usuario3',
+        'senha3',
+        CURRENT_TIMESTAMP
+    ),
+    (
+        4,
+        4,
+        'usuario4',
+        'senha4',
+        CURRENT_TIMESTAMP
+    ),
+    (
+        5,
+        5,
+        'usuario5',
+        'senha5',
+        CURRENT_TIMESTAMP
+    );
 
 INSERT INTO
     status_licitacao (id_status, nome_status)
-VALUES
-    (1, 'Aberta'),
+VALUES (1, 'Aberta'),
     (2, 'Encerrada'),
     (3, 'Cancelada');
 
 INSERT INTO
-    modalidade (id_modalidade, nome_modalidade)
-VALUES
-    (1, 'Pregão'),
+    modalidade (
+        id_modalidade,
+        nome_modalidade
+    )
+VALUES (1, 'Pregão'),
     (2, 'Concorrência'),
     (3, 'Tomada de Preços');
 
@@ -248,8 +281,7 @@ INSERT INTO
         estado,
         data_licitacao
     )
-VALUES
-    (
+VALUES (
         1,
         'LIC00001',
         2,
@@ -291,15 +323,16 @@ VALUES
 
 INSERT INTO
     tipos_documentos (id_documento, descricao)
-VALUES
-    (1, 'Contrato'),
+VALUES (1, 'Contrato'),
     (2, 'Ata'),
     (3, 'Edital');
 
 INSERT INTO
-    documentos_licitacao (id_doc_licitacao, id_documento, num_licitacao)
-VALUES
-    (1, 1, 'LIC00001'),
+    documentos_licitacao (
+        id_doc_licitacao,
+        id_documento,
+        num_licitacao
+    )
+VALUES (1, 1, 'LIC00001'),
     (2, 2, 'LIC00002'),
     (3, 3, 'LIC00003');
-

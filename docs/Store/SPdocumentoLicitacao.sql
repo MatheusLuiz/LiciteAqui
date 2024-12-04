@@ -8,14 +8,14 @@ CREATE PROCEDURE sp_inserir_documento_licitacao (
 BEGIN
     DECLARE v_id_doc_licitacao INT;
 
-    -- Inserção do documento da licitação
+    
     INSERT INTO documentos_licitacao (id_documento, num_licitacao)
     VALUES (p_id_documento, p_num_licitacao);
 
-    -- Obter o ID do documento recém-inserido
+    
     SET v_id_doc_licitacao = LAST_INSERT_ID();
 
-    -- Inserir log
+    
     INSERT INTO logs (tabela_afetada, operacao, id_registro, usuario, descricao)
     VALUES (
         'documentos_licitacao', 
@@ -26,7 +26,7 @@ BEGIN
     );
 END $$
 
-DELIMITER ;
+DELIMITER;
 
 DELIMITER $$
 
@@ -39,17 +39,17 @@ CREATE PROCEDURE sp_atualizar_documento_licitacao (
 BEGIN
     DECLARE v_num_licitacao_antiga VARCHAR(50);
 
-    -- Capturar os dados antigos para o log
+    
     SELECT num_licitacao INTO v_num_licitacao_antiga
     FROM documentos_licitacao
     WHERE id_doc_licitacao = p_id_doc_licitacao;
 
-    -- Atualizar o documento da licitação
+    
     UPDATE documentos_licitacao
     SET id_documento = p_id_documento, num_licitacao = p_num_licitacao
     WHERE id_doc_licitacao = p_id_doc_licitacao;
 
-    -- Inserir log
+    
     INSERT INTO logs (tabela_afetada, operacao, id_registro, usuario, descricao)
     VALUES (
         'documentos_licitacao', 
@@ -60,8 +60,7 @@ BEGIN
     );
 END $$
 
-DELIMITER ;
-
+DELIMITER;
 
 DELIMITER $$
 
@@ -72,16 +71,16 @@ CREATE PROCEDURE sp_deletar_documento_licitacao (
 BEGIN
     DECLARE v_num_licitacao VARCHAR(50);
 
-    -- Capturar o dado antigo para o log
+    
     SELECT num_licitacao INTO v_num_licitacao
     FROM documentos_licitacao
     WHERE id_doc_licitacao = p_id_doc_licitacao;
 
-    -- Deletar o documento da licitação
+    
     DELETE FROM documentos_licitacao
     WHERE id_doc_licitacao = p_id_doc_licitacao;
 
-    -- Inserir log
+    
     INSERT INTO logs (tabela_afetada, operacao, id_registro, usuario, descricao)
     VALUES (
         'documentos_licitacao', 
@@ -92,4 +91,4 @@ BEGIN
     );
 END $$
 
-DELIMITER ;
+DELIMITER;

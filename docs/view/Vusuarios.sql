@@ -7,5 +7,4 @@ SELECT
     data_nascimento,
     data_cadastro,
     cpf
-FROM
-    usuarios;
+FROM usuarios;
