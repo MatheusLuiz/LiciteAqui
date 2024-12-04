@@ -44,10 +44,12 @@ END $$
 
 DELIMITER ;
 
+
 DELIMITER $$
 
 CREATE PROCEDURE sp_atualizar_licitacao (
     IN p_id_licitacao INT,
+    IN p_id_cliente INT,
     IN p_num_licitacao VARCHAR(50),
     IN p_modalidade INT,
     IN p_orgao VARCHAR(255),
@@ -58,14 +60,13 @@ CREATE PROCEDURE sp_atualizar_licitacao (
     IN p_cidade VARCHAR(55),
     IN p_estado CHAR(2),
     IN p_data_licitacao DATE,
-    IN p_usuario INT,
-    IN p_id_cliente INT
+    IN p_usuario INT
 )
 BEGIN
-    DECLARE v_num_licitacao_antiga VARCHAR(50);
+    DECLARE v_nome_antigo VARCHAR(255);
 
-    -- Capturar o número antigo para o log
-    SELECT num_licitacao INTO v_num_licitacao_antiga
+    -- Capturar o número da licitação antigo para o log
+    SELECT num_licitacao INTO v_nome_antigo
     FROM licitacoes
     WHERE id_licitacao = p_id_licitacao;
 
@@ -89,14 +90,18 @@ BEGIN
     INSERT INTO logs (tabela_afetada, operacao, id_registro, usuario, descricao)
     VALUES (
         'licitacoes', 
-        'editar', 
+        'atualizar', 
         p_id_licitacao, 
         p_usuario, 
-        CONCAT('Atualizada licitação de número: ', v_num_licitacao_antiga, ' para ', p_num_licitacao)
+        CONCAT('Atualizada licitação número: ', v_nome_antigo, ' para ', p_num_licitacao)
     );
+
+    -- Retornar mensagem de sucesso
+    SELECT 'Licitação atualizada com sucesso' AS mensagem;
 END $$
 
 DELIMITER ;
+
 
 
 DELIMITER $$

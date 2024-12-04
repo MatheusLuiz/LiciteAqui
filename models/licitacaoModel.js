@@ -1,4 +1,3 @@
-// LicitacaoModel.js
 const db = require('../config/db');
 
 class LicitacaoModel {
@@ -11,13 +10,30 @@ class LicitacaoModel {
         return await this.executeQuery(sql, params);
     }
 
-    static async atualizarLicitacao(id_licitacao, num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario, id_cliente) {
-        const sql = `
-            CALL sp_atualizar_licitacao(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `;
-        const params = [id_licitacao, num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario, id_cliente];
+    static async atualizarLicitacao(id_licitacao, id_cliente, num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario) {
+        const sql = `CALL sp_atualizar_licitacao(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        const params = [id_licitacao, id_cliente, num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario];
+    
         console.log('Parâmetros enviados para sp_atualizar_licitacao:', params);
-        return await this.executeQuery(sql, params);
+    
+        try {
+            const [results] = await db.query(sql, params);
+    
+            // Verificar se a SP retornou a mensagem esperada
+            if (results && results[0] && results[0].mensagem) {
+                return {
+                    success: true,
+                    message: results[0].mensagem,
+                };
+            } else {
+                throw new Error('Erro ao obter o resultado da atualização da licitação.');
+            }
+        } catch (error) {
+            console.error(`Erro ao executar consulta SQL: ${sql}`, error.message);
+            throw new Error(
+                `Erro ao executar a consulta no banco de dados: ${error.message}`
+            );
+        }
     }
 
     static async listarLicitacoes() {

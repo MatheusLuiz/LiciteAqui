@@ -122,3 +122,5 @@ CREATE TABLE logs (
 );
 
 
+ALTER TABLE logs MODIFY COLUMN operacao VARCHAR(20);
+
