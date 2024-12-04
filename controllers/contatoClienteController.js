@@ -61,18 +61,18 @@ class ContatoClienteController {
     // Rota para listar um contato de cliente específico
     static async listarPorId(req, res) {
         try {
-            const { cliente_id } = req.body;
-
-            if (cliente_id === undefined || cliente_id === null) {
+            const { cliente_id } = req.query; // Obter o cliente_id dos query parameters
+    
+            if (!cliente_id) {
                 return res.status(400).json({ error: 'O parâmetro cliente_id é obrigatório.' });
             }
-
+    
             const contatoCliente = await ContatoClienteModel.listarContatoClientePorId(cliente_id);
-
+    
             if (!contatoCliente || contatoCliente.length === 0) {
                 return res.status(404).json({ message: 'Contato de cliente não encontrado.' });
             }
-
+    
             return res.status(200).json(contatoCliente);
         } catch (error) {
             console.error(error);

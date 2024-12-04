@@ -12,7 +12,7 @@ CREATE PROCEDURE sp_inserir_licitacao (
     IN p_estado CHAR(2),
     IN p_data_licitacao DATE,
     IN p_usuario INT,
-    IN P_id_cliente,
+    IN P_id_cliente INT
 )
 BEGIN
     DECLARE v_id_licitacao INT;
@@ -71,7 +71,7 @@ BEGIN
     -- Atualizar a licitação
     UPDATE licitacoes
     SET 
-        id_cliente,
+        id_cliente = p_id_cliente,
         num_licitacao = p_num_licitacao,
         modalidade = p_modalidade,
         orgao = p_orgao,
