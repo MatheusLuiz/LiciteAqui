@@ -73,6 +73,7 @@ BEGIN
     UPDATE licitacoes
     SET 
         id_cliente = p_id_cliente,
+        id_cliente = p_id_cliente,
         num_licitacao = p_num_licitacao,
         modalidade = p_modalidade,
         orgao = p_orgao,
