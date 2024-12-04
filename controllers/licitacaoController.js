@@ -35,7 +35,7 @@ class LicitacaoController {
     static async atualizar(req, res) {
         try {
             const { id_licitacao, num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario, id_cliente } = req.body;
-
+            console.log(id_licitacao, num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario, id_cliente);
             if (!id_licitacao || !num_licitacao || !modalidade || !orgao || !portal || !numero_identificacao || !status_licitacao || !objeto || !cidade || !estado || !data_licitacao || !usuario || !id_cliente) {
                 return res.status(400).json({ error: 'Dados obrigatórios não fornecidos.' });
             }
