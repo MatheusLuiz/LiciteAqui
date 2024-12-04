@@ -11,7 +11,7 @@ SELECT
     cidade,
     status_licitacao,
     estado,
-    data_licitacao,
+    data_licitacao
     
 FROM
     licitacoes;

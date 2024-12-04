@@ -62,25 +62,22 @@ class ClienteController {
         try {
             const camposObrigatorios = ['id_cliente', 'usuario'];
             const erroValidacao = validarCamposObrigatorios(camposObrigatorios, req.body);
-
+        
             if (erroValidacao) {
                 return res.status(400).json({ success: false, message: erroValidacao });
             }
-
+        
             const { id_cliente, usuario } = req.body;
             const result = await ClienteModel.deletarCliente(id_cliente, usuario);
-
-            if (!result.success) {
-                return res.status(404).json({ success: false, message: 'Cliente não encontrado para deletar.' });
-            }
-
-            return res.status(200).json({ success: true, message: 'Cliente deletado com sucesso!', data: result });
+    
+            // Retorna o resultado para o cliente
+            return res.status(200).json({ success: true, message: result.message });
         } catch (error) {
             console.error('Erro ao deletar cliente:', error);
             return res.status(500).json({ success: false, message: 'Erro ao deletar o cliente.', error: error.message });
         }
     }
-
+    
     static async listarClientesAtivos(req, res) {
         try {
             const clientes = await ClienteModel.listarClientesAtivos();

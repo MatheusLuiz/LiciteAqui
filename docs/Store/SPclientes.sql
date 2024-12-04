@@ -46,7 +46,11 @@ BEGIN
 
     -- Atualizar o cliente
     UPDATE clientes
-    SET cnpj = p_cnpj, razao_social = p_razao_social, nome_fantasia = p_nome_fantasia, status = p_status
+    SET 
+        cnpj = p_cnpj, 
+        razao_social = p_razao_social, 
+        nome_fantasia = p_nome_fantasia, 
+        status = p_status
     WHERE id_cliente = p_id_cliente;
 
     -- Inserir log
@@ -58,7 +62,11 @@ BEGIN
         p_usuario, 
         CONCAT('Atualizado cliente: ', v_razao_social_antiga, ' para ', p_razao_social)
     );
-END $$
+
+    -- Retornar mensagem de sucesso
+    SELECT 'Cliente atualizado com sucesso' AS mensagem;
+END$$
+
 
 DELIMITER ;
 
