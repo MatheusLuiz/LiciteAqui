@@ -12,6 +12,6 @@ SELECT
     status_licitacao,
     estado,
     data_licitacao,
-    data_cadastro_licitacao
+    
 FROM
     licitacoes;

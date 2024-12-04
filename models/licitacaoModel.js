@@ -1,19 +1,22 @@
+// LicitacaoModel.js
 const db = require('../config/db');
 
 class LicitacaoModel {
-    static async cadastrarLicitacao(id_cliente,num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario) {
+    static async cadastrarLicitacao(id_cliente, num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario) {
         const sql = `
             CALL sp_inserir_licitacao(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
-        const params = [id_cliente,num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario];
+        const params = [id_cliente, num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario];
+        console.log('Parâmetros enviados para sp_inserir_licitacao:', params);
         return await this.executeQuery(sql, params);
     }
 
-    static async atualizarLicitacao(id_cliente,id_licitacao, num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario) {
+    static async atualizarLicitacao(id_licitacao, num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario, id_cliente) {
         const sql = `
             CALL sp_atualizar_licitacao(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
-        const params = [id_cliente,id_licitacao, num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario];
+        const params = [id_licitacao, num_licitacao, modalidade, orgao, portal, numero_identificacao, status_licitacao, objeto, cidade, estado, data_licitacao, usuario, id_cliente];
+        console.log('Parâmetros enviados para sp_atualizar_licitacao:', params);
         return await this.executeQuery(sql, params);
     }
 

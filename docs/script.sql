@@ -81,6 +81,7 @@ create table modalidade (
 );
 
 CREATE TABLE licitacoes (
+    id_cliente INT NOT NULL,
     id_licitacao INT PRIMARY KEY AUTO_INCREMENT,
     num_licitacao VARCHAR(50) NOT NULL UNIQUE,
     modalidade INT NOT NULL,
@@ -92,9 +93,9 @@ CREATE TABLE licitacoes (
     cidade VARCHAR(55),
     estado CHAR(2),
     data_licitacao DATE NOT NULL,
-    data_cadastro_licitacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (modalidade) REFERENCES modalidade(id_modalidade)
-    FOREIGN KEY (status_licitacao) REFERENCES status_licitacao(id_status)
+    FOREIGN KEY (modalidade) REFERENCES modalidade(id_modalidade),
+    FOREIGN KEY (status_licitacao) REFERENCES status_licitacao(id_status),
+    FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
 );
 
 create table tipos_documentos (

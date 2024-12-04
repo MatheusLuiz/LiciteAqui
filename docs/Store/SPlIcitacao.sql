@@ -1,6 +1,7 @@
 DELIMITER $$
 
 CREATE PROCEDURE sp_inserir_licitacao (
+    IN p_id_cliente INT,
     IN p_num_licitacao VARCHAR(50),
     IN p_modalidade INT,
     IN p_orgao VARCHAR(255),
@@ -11,8 +12,8 @@ CREATE PROCEDURE sp_inserir_licitacao (
     IN p_cidade VARCHAR(55),
     IN p_estado CHAR(2),
     IN p_data_licitacao DATE,
-    IN p_usuario INT,
-    IN P_id_cliente,
+    IN p_usuario INT
+    
 )
 BEGIN
     DECLARE v_id_licitacao INT;
@@ -23,7 +24,7 @@ BEGIN
         status_licitacao, objeto, cidade, estado, data_licitacao
     )
     VALUES (
-        P_id_cliente,p_num_licitacao, p_modalidade, p_orgao, p_portal, p_numero_identificacao, 
+        p_id_cliente,p_num_licitacao, p_modalidade, p_orgao, p_portal, p_numero_identificacao, 
         p_status_licitacao, p_objeto, p_cidade, p_estado, p_data_licitacao
     );
 
@@ -58,7 +59,7 @@ CREATE PROCEDURE sp_atualizar_licitacao (
     IN p_estado CHAR(2),
     IN p_data_licitacao DATE,
     IN p_usuario INT,
-    IN p_id_cliente INT,
+    IN p_id_cliente INT
 )
 BEGIN
     DECLARE v_num_licitacao_antiga VARCHAR(50);
@@ -71,7 +72,7 @@ BEGIN
     -- Atualizar a licitação
     UPDATE licitacoes
     SET 
-        id_cliente,
+        id_cliente = p_id_cliente,
         num_licitacao = p_num_licitacao,
         modalidade = p_modalidade,
         orgao = p_orgao,
