@@ -1,6 +1,6 @@
 const redirectToLogin = (res, message) => {
-    const safeMessage = message.replace(/</g, "&lt;").replace(/>/g, "&gt;"); // Protege contra injeções HTML
-    res.status(401).send(`
+  const safeMessage = message.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  res.status(401).send(`
         <!DOCTYPE html>
         <html lang="pt-BR">
         <head>
